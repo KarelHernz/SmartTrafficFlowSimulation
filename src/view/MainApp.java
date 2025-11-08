@@ -21,6 +21,7 @@ public class MainApp extends Application {
         primaryStage.setTitle("Smart Traffic Flow Simulation");
         primaryStage.setScene(new Scene(root,1008, 654));
         primaryStage.centerOnScreen();
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }
