@@ -4,8 +4,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,86 +13,69 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="657.0" prefWidth="1008.0"
-      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControlPanel">
-    <AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0"
-                prefWidth="658.0">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="657.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControlPanel">
+    <AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="658.0">
         <ImageView fx:id="ivMapa" fitHeight="657.0" fitWidth="668.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../img/road_intersection.jpg"/>
+            <Image url="@../img/road_intersection.jpg" />
         </ImageView>
-        <Line endX="373.0" layoutX="284.0" layoutY="267.0" startX="-284.0"/>
-        <Line endX="534.0" layoutX="123.0" layoutY="302.0" startX="-123.0"/>
-        <Line endX="535.0" layoutX="123.0" layoutY="354.0" startX="-123.0"/>
-        <Line endX="556.0" layoutX="101.0" layoutY="389.0" startX="-100.0"/>
-        <Line endX="134.5" endY="301.0" layoutX="132.0" layoutY="356.0" startX="134.5" startY="-356.0"/>
-        <Line endX="157.5" endY="291.0" layoutX="143.0" layoutY="366.0" startX="157.5" startY="-366.0"/>
-        <Line endX="157.5" endY="281.0" layoutX="232.0" layoutY="376.0" startX="157.5" startY="-376.0"/>
-        <Line endX="157.5" endY="281.0" layoutX="198.0" layoutY="376.0" startX="157.5" startY="-376.0"/>
-        <ImageView fx:id="ivLeftGreenLigth" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
-            <Image url="@../img/sinal_verde.png"/>
+        <Line endX="373.0" layoutX="284.0" layoutY="267.0" startX="-284.0" />
+        <Line endX="534.0" layoutX="123.0" layoutY="302.0" startX="-123.0" />
+        <Line endX="535.0" layoutX="123.0" layoutY="354.0" startX="-123.0" />
+        <Line endX="556.0" layoutX="101.0" layoutY="389.0" startX="-100.0" />
+        <Line endX="134.5" endY="301.0" layoutX="132.0" layoutY="356.0" startX="134.5" startY="-356.0" />
+        <Line endX="157.5" endY="291.0" layoutX="143.0" layoutY="366.0" startX="157.5" startY="-366.0" />
+        <Line endX="157.5" endY="281.0" layoutX="232.0" layoutY="376.0" startX="157.5" startY="-376.0" />
+        <Line endX="157.5" endY="281.0" layoutX="198.0" layoutY="376.0" startX="157.5" startY="-376.0" />
+        <ImageView fx:id="ivLeftGreenLigth" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../img/sinal_verde.png" />
         </ImageView>
-        <ImageView fx:id="ivLeftYellowLigth" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
-            <Image url="@../img/sinal_amarelo.png"/>
+        <ImageView fx:id="ivLeftYellowLigth" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
-        <ImageView fx:id="ivRigthGreenLigth" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
-            <Image url="@../img/sinal_verde.png"/>
+        <ImageView fx:id="ivRigthGreenLigth" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../img/sinal_verde.png" />
         </ImageView>
-        <ImageView fx:id="ivRigthYellowLigth" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0"
-                   pickOnBounds="true" preserveRatio="true" visible="false">
-            <Image url="@../img/sinal_amarelo.png"/>
+        <ImageView fx:id="ivRigthYellowLigth" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
-        <ImageView fx:id="ivTopRedLigth" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
-            <Image url="@../img/sinal_vermelho.png"/>
+        <ImageView fx:id="ivTopRedLigth" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+            <Image url="@../img/sinal_vermelho.png" />
         </ImageView>
-        <ImageView fx:id="ivTopYellowLigth" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
-            <Image url="@../img/sinal_amarelo.png"/>
+        <ImageView fx:id="ivTopYellowLigth" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+            <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
-        <ImageView fx:id="ivBottomRedLigth" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
-            <Image url="@../img/sinal_vermelho.png"/>
+        <ImageView fx:id="ivBottomRedLigth" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+            <Image url="@../img/sinal_vermelho.png" />
         </ImageView>
-        <ImageView fx:id="ivBottomYellowLigth" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0"
-                   pickOnBounds="true" preserveRatio="true" rotate="90.0">
-            <Image url="@../img/sinal_amarelo.png"/>
+        <ImageView fx:id="ivBottomYellowLigth" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+            <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
     </AnchorPane>
     <AnchorPane prefHeight="657.0" prefWidth="352.0">
         <Label layoutX="39.0" layoutY="205.0" text="Velocidade">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
-        <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV"
-                accessibleText="Exportar CSV" layoutX="145.0" layoutY="444.0" mnemonicParsing="false"
-                text="Exportar JSON"/>
-        <ComboBox fx:id="cbVelocidade" focusTraversable="false" layoutX="38.0" layoutY="228.0" prefHeight="25.0"
-                  prefWidth="131.0" value="x1" visibleRowCount="4"/>
-        <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset"
-                layoutX="87.0" layoutY="444.0" mnemonicParsing="false" text="Reset"/>
-        <TextArea fx:id="taEstadisticas" disable="true" layoutX="38.0" layoutY="314.0" prefHeight="111.0"
-                  prefWidth="200.0"
-                  text="Total de carros: 0&#10;Total de carros azuis: 0&#10;Total de carros vermelhos: 0&#10;Total de carros brancos: 0&#10;Total de carros dorados: 0&#10;Total de carros roxos: 0"/>
+        <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV" accessibleText="Exportar CSV" layoutX="191.0" layoutY="537.0" mnemonicParsing="false" text="Exportar JSON" />
+        <ComboBox fx:id="cbVelocidade" focusTraversable="false" layoutX="38.0" layoutY="228.0" prefHeight="25.0" prefWidth="131.0" value="x1" visibleRowCount="4" />
+        <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset" layoutX="130.0" layoutY="537.0" mnemonicParsing="false" text="Reset" />
         <Label layoutX="38.0" layoutY="291.0" text="Estadísticas">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
         <RadioButton fx:id="rbAdaptativo" layoutX="106.0" layoutY="151.0" mnemonicParsing="false" text="Adaptativo">
             <toggleGroup>
-                <ToggleGroup fx:id="grpModo"/>
+                <ToggleGroup fx:id="grpModo" />
             </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" selected="true"
-                     text="Fixo" toggleGroup="$grpModo"/>
+        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" selected="true" text="Fixo" toggleGroup="$grpModo" />
         <Label layoutX="38.0" layoutY="128.0" text="Modo">
             <font>
-                <Font size="14.0"/>
+                <Font size="14.0" />
             </font>
         </Label>
+      <TreeView fx:id="tvEstadisticas" layoutX="38.0" layoutY="314.0" prefHeight="206.0" prefWidth="246.0" />
     </AnchorPane>
 </HBox>
