@@ -1,18 +1,17 @@
 package model;
 
-import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
-import java.util.HashMap;
 import java.util.Map;
+
 
 public class Vehicle {
     private String cor;
     private ImageView image;
-    private Map<String, Double[]> posicao;
-    private Map<String, Double[]> destino;
+    private Map<String, Double> posicao;
+    private Map<String, Double> destino;
     private boolean emMovimento;
 
-    public Vehicle(String cor, ImageView image, Map<String, Double[]> posicao, Map<String, Double[]> destino, boolean emMovimento) {
+    public Vehicle(String cor, ImageView image, Map<String, Double> posicao, Map<String, Double> destino) {
         this.cor = cor;
         this.image = image;
         this.posicao = posicao;
@@ -36,20 +35,20 @@ public class Vehicle {
         this.image = image;
     }
 
-    public Map<String, Double[]> getPosicao() {
-        return posicao;
+    public Double getPosicao(String eixo) {
+        return posicao.getOrDefault(eixo, 0.0);
     }
 
-    public void setPosicao(Map<String, Double[]> posicao, double x, double y) {
-        this.posicao.put("coords: ", new Double[]{x, y});
+    public void setPosicao(String eixo, Double coordenada) {
+        this.posicao.put(eixo, coordenada);
     }
 
-    public Map<String, Double[]> getDestino() {
-        return destino;
+    public Double getDestino(String eixo) {
+        return destino.getOrDefault(eixo, 0.0);
     }
 
-    public void setDestino(Map<String, Double[]> destino, double x, double y) {
-        this.destino.put("coords: ", new Double[]{x, y});
+    public void setDestino(String eixo, Double coordenada) {
+        this.destino.put(eixo, coordenada);
     }
 
     public boolean isEmMovimento() {
