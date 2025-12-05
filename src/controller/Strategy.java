@@ -1,4 +1,4 @@
 package controller;
 
-public class Strategy {
+public interface Strategy {
 }
