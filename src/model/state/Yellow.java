@@ -8,7 +8,7 @@ public class Yellow implements State {
 
     @Override
     public void enter(TrafficLight trafficLight) {
-        trafficLight.setCor(trafficLight.Cor.YELLOW);
+        trafficLight.setCor(TrafficLight.Cor.YELLOW);
         trafficLight.resetTempo();
     }
 
@@ -17,14 +17,14 @@ public class Yellow implements State {
 
     @Override
     public void update(TrafficLight trafficLight, double deltaTime) {
-        trafficLight.incrementTempo(deltaTime);
+        trafficLight.addTempo(deltaTime);
         if (trafficLight.getTempo() >= tempo) {
             trafficLight.setState(new Red());
         }
     }
 
     @Override
-    public TrafficLight.Cor getColor() {
+    public TrafficLight.Cor getCor() {
         return TrafficLight.Cor.YELLOW;
     }
 }
