@@ -1,4 +1,3 @@
-
 package model;
 
 import java.util.*;
@@ -6,6 +5,7 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 public class Road {
     private final HashMap<Integer, LinkedList<Vehicle>> pista = new HashMap<>();
 

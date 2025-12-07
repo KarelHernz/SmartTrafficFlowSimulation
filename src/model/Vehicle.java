@@ -3,7 +3,6 @@ package model;
 import javafx.scene.image.ImageView;
 import java.util.Map;
 
-
 public class Vehicle {
     private String cor;
     private ImageView image;
