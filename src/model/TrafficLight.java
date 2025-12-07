@@ -14,7 +14,7 @@ public class TrafficLight {
     private Double tempo;
 
     public enum Color {
-        Yellow, Red, Green
+        YELLOW, RED, GREEN
     }
     private Color cor;
 
