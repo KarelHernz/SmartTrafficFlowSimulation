@@ -13,16 +13,16 @@ public class TrafficLight {
     private State state;
     private Double tempo;
 
-    public enum Color {
+    public enum Cor {
         YELLOW, RED, GREEN
     }
-    private Color cor;
+    private Cor cor;
 
-    private Map<Color, ImageView> lights = new HashMap<>();
+    private Map<Cor, ImageView> lights = new HashMap<>();
 
       public TrafficLight(ImageView imageView1, ImageView imageView2) {
-        this.lights.put(Color.Green, imageView1);
-        this.lights.put(Color.Red, imageView2);
+        this.lights.put(Cor.GREEN, imageView1);
+        this.lights.put(Cor.RED, imageView2);
         this.state = new Green();
         this.state.enter(this);
 
@@ -56,16 +56,16 @@ public class TrafficLight {
           }
           updateVisibilidade();
     }
-    public Color getCor(){
+    public Cor getCor(){
           return this.cor;
     }
-    public void setColor(Color cor) {
+    public void setColor(Cor cor) {
           this.cor = cor;
           updateVisibilidade();
     }
 
     public void updateVisibilidade(){
-        for (Color c : Color.values()){
+        for (Cor c : Cor.values()){
             ImageView light = lights.get(c);
             if (light != null) {
                 light.setVisible(c == this.cor);
