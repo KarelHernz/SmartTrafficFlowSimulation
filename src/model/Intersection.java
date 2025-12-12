@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Intersection {
-    private Map<Road, List<TrafficLight>> roads = new HashMap<>();
-    private Strategy strategy;
+    private final Map<Road, List<TrafficLight>> roads = new HashMap<>();
+    private final Map<Road, Sensor> sensor = new HashMap<>();
+    private final Strategy strategy;
 
     public Intersection(Strategy strategy) {
         this.strategy = strategy;
@@ -19,6 +20,7 @@ public class Intersection {
         trafficLightsList.add(trafficLights1);
         trafficLightsList.add(trafficLights2);
         roads.put(road, trafficLightsList);
+        sensor.put(road, new Sensor(road));
     }
 
     public Map<Road, List<TrafficLight>> getRoads() {
@@ -27,6 +29,10 @@ public class Intersection {
 
     public List<TrafficLight> getTrafficLights(Road road) {
         return roads.get(road);
+    }
+
+    public Sensor getSensor(Road road) {
+        return sensor.get(road);
     }
 
     public void update(double deltatime){
