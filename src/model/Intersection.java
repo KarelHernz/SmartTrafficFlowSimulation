@@ -42,5 +42,6 @@ public class Intersection {
                 trafficLight.updateTempo(deltatime);
             }
         }
+        strategy.apply(this);
     }
 }
