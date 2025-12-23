@@ -15,6 +15,7 @@ class SensorTest {
     void main() {
         Road road = new Road(4);
         Sensor sensor = new Sensor(road);
+        int result;
 
         Map<String, Double> mapGenerico = new HashMap<>();
         mapGenerico.put("xpto", 4.3);
@@ -30,11 +31,8 @@ class SensorTest {
             road.addVehicle(3, vehicleRound1);
         }
 
-        var mapRound1 = sensor.countVehicles(4);
-        assertEquals(0, mapRound1.get(1));
-        assertEquals(0, mapRound1.get(2));
-        assertEquals(0, mapRound1.get(3));
-        assertEquals(0, mapRound1.get(4));
+        result = sensor.countAllVehicles();
+        assertEquals(0, result);
         //endregion
 
         //region Round 2 - Veiculos das vias 2 e 3 que não estão em movimento
@@ -49,11 +47,8 @@ class SensorTest {
             road.addVehicle(3, vehicleRound2);
         }
 
-        var mapRoun2 = sensor.countVehicles(4);
-        assertEquals(0, mapRoun2.get(1));
-        assertEquals(5, mapRoun2.get(2));
-        assertEquals(7, mapRoun2.get(3));
-        assertEquals(0, mapRoun2.get(4));
+        result = sensor.countAllVehicles();
+        assertEquals(12, result);
         //endregion
     }
 }

@@ -8,15 +8,21 @@ import java.util.List;
 
 public class Road {
     private final HashMap<Integer, LinkedList<Vehicle>> pista = new HashMap<>();
+    private final Integer nVias;
 
     public Road(Integer nVia) {
-        for(int i = 1; i <= nVia; i++){
+        this.nVias = nVia;
+        for(int i = 1; i <= this.nVias; i++){
             addVia(i);
         }
     }
 
     public void addVia(Integer nVia) {
         this.pista.put(nVia, new LinkedList<>());
+    }
+
+    public Integer getNVias() {
+        return this.nVias;
     }
 
     public List<Vehicle> getVehicles(int nVia) {
