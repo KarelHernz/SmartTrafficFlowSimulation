@@ -6,8 +6,8 @@ import java.util.Map;
 public class Vehicle {
     private String cor;
     private ImageView image;
-    private Map<String, Double> posicao;
-    private Map<String, Double> destino;
+    private final Map<String, Double> posicao;
+    private final Map<String, Double> destino;
     private boolean emMovimento;
 
     public Vehicle(String cor, ImageView image, Map<String, Double> posicao, Map<String, Double> destino) {

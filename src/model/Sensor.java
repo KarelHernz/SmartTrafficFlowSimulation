@@ -9,10 +9,10 @@ public class Sensor {
         this.road = road;
     }
 
-    public HashMap<Integer, Integer> countVehicles(Integer nVias){
-        //Guarda a número da via e o número de veiculos que estão à espera no semáforo
-        HashMap<Integer, Integer> mapResult = new HashMap<>();
-        for(int i = 1; i <= nVias; i++){
+    //Devolve o número de veiculos que não estão em movimento de todas as vias de uma road
+    public Integer countAllVehicles(){
+        int result = 0;
+        for(int i = 1; i <= road.getNVias(); i++){
             int numVeiculos = 0;
             var vehicles = road.getVehicles(i);
 
@@ -22,8 +22,8 @@ public class Sensor {
                     numVeiculos++;
                 }
             }
-            mapResult.put(i, numVeiculos);
+            result += numVeiculos;
         }
-        return mapResult;
+        return result;
     }
 }

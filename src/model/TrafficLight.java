@@ -27,9 +27,6 @@ public class TrafficLight {
     }
 
     public void setState(State novoState) {
-        if (this.state != null)
-            this.state.exit(this);
-
         this.state = novoState;
         this.state.enter(this);
         this.state.update(this, 0.0);
