@@ -57,20 +57,20 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV" accessibleText="Exportar CSV" layoutX="191.0" layoutY="537.0" mnemonicParsing="false" text="Exportar JSON" />
-        <ComboBox fx:id="cbVelocidade" focusTraversable="false" layoutX="38.0" layoutY="228.0" prefHeight="25.0" prefWidth="131.0" value="x1" visibleRowCount="4" />
-        <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset" layoutX="130.0" layoutY="537.0" mnemonicParsing="false" text="Reset" />
+        <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV" accessibleText="Exportar CSV" layoutX="191.0" layoutY="537.0" mnemonicParsing="false" text="Exportar JSON" onAction="#exportar" />
+        <ComboBox fx:id="cbVelocidade" focusTraversable="false" layoutX="38.0" layoutY="228.0" prefHeight="25.0" prefWidth="131.0" value="x1" visibleRowCount="4" onAction="#changeSpeed" />
+        <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset" layoutX="130.0" layoutY="537.0" mnemonicParsing="false" text="Reset" onAction="#reset" />
         <Label layoutX="38.0" layoutY="291.0" text="Estadísticas">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <RadioButton fx:id="rbAdaptativo" layoutX="106.0" layoutY="151.0" mnemonicParsing="false" text="Adaptativo">
+        <RadioButton fx:id="rbAdaptativo" layoutX="106.0" layoutY="151.0" mnemonicParsing="false" text="Adaptativo" onAction="#changeAdaptativeCycle">
             <toggleGroup>
                 <ToggleGroup fx:id="grpModo" />
             </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" selected="true" text="Fixo" toggleGroup="$grpModo" />
+        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" selected="true" text="Fixo" toggleGroup="$grpModo" onAction="#changeFixedCycle"/>
         <Label layoutX="38.0" layoutY="128.0" text="Modo">
             <font>
                 <Font size="14.0" />

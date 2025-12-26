@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import model.World;
 
 public class ControlPanel implements Initializable {
     @FXML
@@ -29,10 +32,6 @@ public class ControlPanel implements Initializable {
     @FXML
     private ImageView ivBottomYellowLigth;
     @FXML
-    private RadioButton rbFixo;
-    @FXML
-    private RadioButton rbAdaptativo;
-    @FXML
     private ToggleGroup grpModo;
     @FXML
     private ComboBox<String> cbVelocidade;
@@ -43,39 +42,82 @@ public class ControlPanel implements Initializable {
     @FXML
     private Button bttReset;
 
+    private final World world = new World();
+
     //Função que corre quando inicia o programa
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cbVelocidade.getItems().addAll("Pausa", "x1", "x1.5", "x2");
         cbVelocidade.setValue("x1");
 
-        TreeItem<String> root = new TreeItem<>();
-        TreeItem<String> rootTotal = new TreeItem<>("Total");
-        TreeItem<String> rootCarros = new TreeItem<>("Carros");
-        TreeItem<String> rootInterseccao = new TreeItem<>("Intersecção");
-        TreeItem<String> rootTempo = new TreeItem<>("Tempo: 0s");
+        var root = makeTreeView();
+        tvEstadisticas.setRoot(root);
+        tvEstadisticas.setShowRoot(false);
+    }
 
-        rootCarros.getChildren().addAll(
+    public EventHandler<ActionEvent> changeFixedCycle(){
+        return null;
+    }
+
+    public EventHandler<ActionEvent> changeAdaptativeCycle(){
+        return null;
+    }
+
+    public EventHandler<ActionEvent> changeSpeed(){
+        switch (cbVelocidade.getValue()){
+            case "Pausa":
+                world.changeSpeed(0);
+                break;
+            case "x1":
+                world.changeSpeed(1);
+                break;
+            case "x1.5":
+                world.changeSpeed(1.5F);
+                break;
+            case "x2":
+                world.changeSpeed(2);
+                break;
+        }
+        return null;
+    }
+
+    public EventHandler<ActionEvent> reset(){
+        var root = makeTreeView();
+        tvEstadisticas.setRoot(root);
+        return null;
+    }
+
+    public EventHandler<ActionEvent> exportar(){
+        return null;
+    }
+
+    //Planilha para criar a TreeView onde vão ser apresentadas as estadísticas
+    public TreeItem<String> makeTreeView() {
+        TreeItem<String> root = new TreeItem<>();
+        TreeItem<String> rootVehicle = new TreeItem<>("Carros");
+        TreeItem<String> rootIntersection = new TreeItem<>("Intersecção");
+        TreeItem<String> rootTime = new TreeItem<>("Tempo: 0s");
+
+        rootVehicle.getChildren().addAll(
                 new TreeItem<>("Vermelhos: 0"),
                 new TreeItem<>("Brancos: 0"),
                 new TreeItem<>("Dorados: 0"),
                 new TreeItem<>("Roxos: 0")
         );
 
-        rootInterseccao.getChildren().addAll(
+        rootIntersection.getChildren().addAll(
                 new TreeItem<>("Encima: 0"),
                 new TreeItem<>("Embaixo: 0"),
                 new TreeItem<>("Esquerda: 0"),
                 new TreeItem<>("Direita: 0")
         );
 
-        rootTotal.getChildren().add(rootCarros);
-        rootTotal.getChildren().add(rootInterseccao);
-        rootTotal.getChildren().add(rootTempo);
+        TreeItem<String> rootTotal = new TreeItem<>("Total");
+        rootTotal.getChildren().add(rootVehicle);
+        rootTotal.getChildren().add(rootIntersection);
+        rootTotal.getChildren().add(rootTime);
         rootTotal.setExpanded(true);
         root.getChildren().add(rootTotal);
-
-        tvEstadisticas.setRoot(root);
-        tvEstadisticas.setShowRoot(false);
+        return root;
     }
 }
