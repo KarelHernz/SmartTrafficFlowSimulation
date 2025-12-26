@@ -3,18 +3,15 @@ package view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import model.World;
 
 public class ControlPanel implements Initializable {
     @FXML
     private ImageView ivMapa;
-    @FXML
-    private ImageView imgMapa;
     @FXML
     private ImageView ivLeftGreenLigth;
     @FXML
@@ -32,17 +29,11 @@ public class ControlPanel implements Initializable {
     @FXML
     private ImageView ivBottomYellowLigth;
     @FXML
-    private ToggleGroup grpModo;
-    @FXML
     private ComboBox<String> cbVelocidade;
     @FXML
     private TreeView<String> tvEstadisticas;
-    @FXML
-    private Button bttExportar;
-    @FXML
-    private Button bttReset;
 
-    private final World world = new World();
+    private World world;
 
     //Função que corre quando inicia o programa
     @FXML
@@ -53,17 +44,29 @@ public class ControlPanel implements Initializable {
         var root = makeTreeView();
         tvEstadisticas.setRoot(root);
         tvEstadisticas.setShowRoot(false);
+
+        ArrayList<ImageView> imageViewList = new ArrayList<>();
+        imageViewList.add(ivTopYellowLigth);
+        imageViewList.add(ivTopRedLigth);
+        imageViewList.add(ivBottomYellowLigth);
+        imageViewList.add(ivBottomRedLigth);
+        imageViewList.add(ivLeftGreenLigth);
+        imageViewList.add(ivLeftYellowLigth);
+        imageViewList.add(ivRigthGreenLigth);
+        imageViewList.add(ivRigthYellowLigth);
+
+        world = new World(imageViewList, ivMapa);
     }
 
-    public EventHandler<ActionEvent> changeFixedCycle(){
-        return null;
+    public void changeFixedCycle(){
+
     }
 
-    public EventHandler<ActionEvent> changeAdaptativeCycle(){
-        return null;
+    public void changeAdaptativeCycle(){
+
     }
 
-    public EventHandler<ActionEvent> changeSpeed(){
+    public void changeSpeed(){
         switch (cbVelocidade.getValue()){
             case "Pausa":
                 world.changeSpeed(0);
@@ -78,17 +81,14 @@ public class ControlPanel implements Initializable {
                 world.changeSpeed(2);
                 break;
         }
-        return null;
     }
 
-    public EventHandler<ActionEvent> reset(){
+    public void reset(){
         var root = makeTreeView();
         tvEstadisticas.setRoot(root);
-        return null;
     }
 
-    public EventHandler<ActionEvent> exportar(){
-        return null;
+    public void exportar(){
     }
 
     //Planilha para criar a TreeView onde vão ser apresentadas as estadísticas
