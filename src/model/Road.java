@@ -1,76 +1,46 @@
-
 package model;
 
 import java.util.*;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Road {
-  
-    private HashMap<String, HashMap<Integer, List<Vehicle>>> pista = new HashMap<>();
-    
-    public List<Vehicle> getVehicles(String nomePista, int via) {
-        if (!pista.containsKey(nomePista)) {
-            return null; 
-        }
-        
-        HashMap<Integer, List<Vehicle>> vias = pista.get(nomePista);
-        
-        
-        if (!vias.containsKey(via)) {
-            return null; 
-        }
-        
-        return vias.get(via);
-    }
-    
+    private final HashMap<Integer, LinkedList<Vehicle>> pista = new HashMap<>();
+    private final Integer nVias;
 
-    public void addVehicle(String nomePista, int via, Vehicle carro) {
-       
-        if (!pista.containsKey(nomePista)) {
-            pista.put(nomePista, new HashMap<>());
+    public Road(Integer nVia) {
+        this.nVias = nVia;
+        for(int i = 1; i <= this.nVias; i++){
+            addVia(i);
         }
-        
-        HashMap<Integer, List<Vehicle>> vias = pista.get(nomePista);
-      
-        if (!vias.containsKey(via)) {
-            vias.put(via, new ArrayList<>());
-        }
-        
-        List<Vehicle> carros = vias.get(via);
-        carros.add(carro); 
     }
-    public Vehicle removeVehicle(String nomePista, int via) {
-       
-        List<Vehicle> carros = getVehicles(nomePista, via);
-      
-        if (carros != null && !carros.isEmpty()) {
-            return carros.remove(0);
-        }
-        
-        return null; 
+
+    public void addVia(Integer nVia) {
+        this.pista.put(nVia, new LinkedList<>());
     }
+
+    public Integer getNVias() {
+        return this.nVias;
+    }
+
+    public List<Vehicle> getVehicles(int nVia) {
+        var map = this.pista.get(nVia);
+        return new ArrayList<>(map);
+    }
+
+    public void addVehicle(int nVia, Vehicle v) {
+        this.pista.get(nVia).add(v);
+    }
+
+    public void removeVehicle(int nVia) {
+        this.pista.get(nVia).removeFirst();
+    }
+
     public void clearRoad() {
-        pista = new HashMap<>();
-    }
-    
-    public void mostrarEstrada() {
-        if (pista.isEmpty()) {
-            System.out.println("Estrada vazia!");
-            return;
-        }
-        
-        for (String nomePista : pista.keySet()) {
-            System.out.println("Pista: " + nomePista);
-            
-            HashMap<Integer, List<Vehicle>> vias = pista.get(nomePista);
-            
-            for (int via : vias.keySet()) {
-                List<Vehicle> carros = vias.get(via);
-                System.out.println("  Via " + via + ": " + carros.size() + " carros");
-                
-                for (int i = 0; i < carros.size(); i++) {
-                    System.out.println("    [" + i + "] " + carros.get(i));
-                }
-            }
+        for (List<Vehicle> vehicles : pista.values()) {
+            vehicles.clear();
         }
     }
 }

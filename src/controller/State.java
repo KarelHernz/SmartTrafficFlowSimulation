@@ -6,12 +6,9 @@ public interface State {
     //muda de cor e reinicia o temporizador
     void enter(TrafficLight trafficLight);
 
-    //sai do estado atual
-    void exit(TrafficLight trafficLight);
-
     //muda o estado atual por outro
     void update(TrafficLight trafficLight, double deltaTime);
 
     //devolve a cor atual do semáforo
-    TrafficLight.Cor getColor();
+    TrafficLight.Cor getCor();
 }

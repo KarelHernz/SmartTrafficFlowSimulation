@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import java.util.Objects;
 
 public class MainApp extends Application {
-    public static void main(String[] args) {launch(args);}
+    static void main(String[] args) {launch(args);}
 
     //Janela do programa
     @Override
