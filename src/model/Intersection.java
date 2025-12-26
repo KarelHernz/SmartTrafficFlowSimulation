@@ -15,10 +15,7 @@ public class Intersection {
         this.strategy = strategy;
     }
 
-    public void addRoad(Road road, TrafficLight trafficLights1, TrafficLight trafficLights2) {
-        var trafficLightsList = new ArrayList<TrafficLight>();
-        trafficLightsList.add(trafficLights1);
-        trafficLightsList.add(trafficLights2);
+    public void addRoad(Road road, ArrayList<TrafficLight> trafficLightsList) {
         roads.put(road, trafficLightsList);
         sensor.put(road, new Sensor(road));
     }
@@ -43,5 +40,18 @@ public class Intersection {
             }
         }
         strategy.apply(this);
+    }
+
+    //Devolve ao estado inicial dos semáforos e dos roads
+    public void reset() {
+        for (List<TrafficLight> lights : roads.values()) {
+            for (TrafficLight tl : lights) {
+                tl.reset();
+            }
+        }
+
+        for (Road road : roads.keySet()) {
+            road.clearRoad();
+        }
     }
 }
