@@ -13,5 +13,5 @@ public interface State {
     void update(TrafficLight trafficLight, double deltaTime);
 
     //devolve a cor atual do semáforo
-    TrafficLight.Color getColor();
+    TrafficLight.Cor getColor();
 }
