@@ -4,18 +4,21 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="657.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControlPanel">
-    <AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="658.0">
-        <ImageView fx:id="ivMapa" fitHeight="657.0" fitWidth="668.0" pickOnBounds="true" preserveRatio="true">
+    <AnchorPane fx:id="mapAnchorPane" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="658.0">
+        <ImageView fitHeight="657.0" fitWidth="668.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../img/road_intersection.jpg" />
         </ImageView>
         <Line endX="373.0" layoutX="284.0" layoutY="267.0" startX="-284.0" />
@@ -26,56 +29,101 @@
         <Line endX="157.5" endY="291.0" layoutX="143.0" layoutY="366.0" startX="157.5" startY="-366.0" />
         <Line endX="157.5" endY="281.0" layoutX="232.0" layoutY="376.0" startX="157.5" startY="-376.0" />
         <Line endX="157.5" endY="281.0" layoutX="198.0" layoutY="376.0" startX="157.5" startY="-376.0" />
-        <ImageView fx:id="ivLeftGreenLigth" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" visible="false">
+        <ImageView fx:id="ivLeftGreenLight" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <Image url="@../img/sinal_verde.png" />
         </ImageView>
-        <ImageView fx:id="ivLeftYellowLigth" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" visible="false">
+        <ImageView fx:id="ivLeftYellowLight" fitHeight="83.0" fitWidth="35.0" layoutX="163.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
-        <ImageView fx:id="ivRigthGreenLigth" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" visible="false">
+        <ImageView fx:id="ivRightGreenLight" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <Image url="@../img/sinal_verde.png" />
         </ImageView>
-        <ImageView fx:id="ivRigthYellowLigth" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" visible="false">
+        <ImageView fx:id="ivRightYellowLight" fitHeight="83.0" fitWidth="35.0" layoutX="489.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" visible="false">
             <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
-        <ImageView fx:id="ivTopRedLigth" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="ivTopRedLight" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <Image url="@../img/sinal_vermelho.png" />
         </ImageView>
-        <ImageView fx:id="ivTopYellowLigth" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="ivTopYellowLight" fitHeight="81.0" fitWidth="34.0" layoutX="282.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
-        <ImageView fx:id="ivBottomRedLigth" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="ivBottomRedLight" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <Image url="@../img/sinal_vermelho.png" />
         </ImageView>
-        <ImageView fx:id="ivBottomYellowLigth" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+        <ImageView fx:id="ivBottomYellowLight" fitHeight="81.0" fitWidth="34.0" layoutX="370.0" layoutY="451.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
             <Image url="@../img/sinal_amarelo.png" />
         </ImageView>
+      <Pane fx:id="vehiclesPane" prefHeight="657.0" prefWidth="668.0" />
     </AnchorPane>
     <AnchorPane prefHeight="657.0" prefWidth="352.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="660.0" layoutX="-1.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="350.0" />
         <Label layoutX="39.0" layoutY="205.0" text="Velocidade">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV" accessibleText="Exportar CSV" layoutX="191.0" layoutY="537.0" mnemonicParsing="false" text="Exportar JSON" onAction="#exportar" />
-        <ComboBox fx:id="cbVelocidade" focusTraversable="false" layoutX="38.0" layoutY="228.0" prefHeight="25.0" prefWidth="131.0" value="x1" visibleRowCount="4" onAction="#changeSpeed" />
-        <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset" layoutX="130.0" layoutY="537.0" mnemonicParsing="false" text="Reset" onAction="#reset" />
+        <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV" accessibleText="Exportar CSV" layoutX="191.0" layoutY="537.0" mnemonicParsing="false" onAction="#export" text="Exportar JSON" />
+        <ComboBox fx:id="cbSpeed" focusTraversable="false" layoutX="38.0" layoutY="228.0" onAction="#changeSpeed" prefHeight="25.0" prefWidth="131.0" value="x1" visibleRowCount="4" />
+        <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset" layoutX="130.0" layoutY="537.0" mnemonicParsing="false" onAction="#reset" text="Reset" />
         <Label layoutX="38.0" layoutY="291.0" text="Estadísticas">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <RadioButton fx:id="rbAdaptativo" layoutX="106.0" layoutY="151.0" mnemonicParsing="false" text="Adaptativo" onAction="#changeAdaptativeCycle">
-            <toggleGroup>
+        <RadioButton fx:id="rbAdaptativo" layoutX="106.0" layoutY="151.0" mnemonicParsing="false" onAction="#changeAdaptativeCycle" text="Adaptativo">
+         <toggleGroup>
                 <ToggleGroup fx:id="grpModo" />
-            </toggleGroup>
+         </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" selected="true" text="Fixo" toggleGroup="$grpModo" onAction="#changeFixedCycle"/>
+        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" onAction="#changeFixedCycle" selected="true" text="Fixo" toggleGroup="$grpModo" />
         <Label layoutX="38.0" layoutY="128.0" text="Modo">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-      <TreeView fx:id="tvEstadisticas" layoutX="38.0" layoutY="314.0" prefHeight="206.0" prefWidth="246.0" />
+        <TabPane layoutX="38.0" layoutY="314.0" prefHeight="163.0" prefWidth="246.0" tabClosingPolicy="UNAVAILABLE">
+            <Tab fx:id="tabVehicles" text="Carros">
+                <AnchorPane layoutX="246.0" layoutY="314.0" minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="246.0">
+                    <Label layoutX="14.0" layoutY="14.0" text="Vermelhos:" />
+                    <Label layoutX="14.0" layoutY="33.0" text="Brancos:" />
+                    <Label layoutX="14.0" layoutY="52.0" text="Dourados:" />
+                    <Label layoutX="14.0" layoutY="71.0" text="Roxos:" />
+                    <Label layoutX="14.0" layoutY="91.0" text="Azuis:" />
+                    <Label fx:id="lblRedValue" layoutX="76.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblWhiteValue" layoutX="62.0" layoutY="33.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblGoldenValue" layoutX="72.0" layoutY="52.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblPulpleValue" layoutX="51.0" layoutY="71.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblBlueValue" layoutX="49.0" layoutY="91.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                </AnchorPane>
+            </Tab>
+            <Tab fx:id="tabIntersection" text="Intersecção">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <Label layoutX="38.0" layoutY="31.0" text="Encima:" />
+                    <Label layoutX="38.0" layoutY="50.0" text="Embaixo:" />
+                    <Label layoutX="14.0" layoutY="71.0" text="Horizontal" underline="true">
+                        <font>
+                            <Font name="System Bold" size="12.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="38.0" layoutY="88.0" text="Esquerda:" />
+                    <Label layoutX="14.0" layoutY="14.0" text="Vertical" underline="true">
+                        <font>
+                            <Font name="System Bold" size="12.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="38.0" layoutY="107.0" text="Direita:" />
+                    <Label fx:id="lblBottomValue" layoutX="88.0" layoutY="50.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblTopValue" layoutX="82.0" layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblLeftValue" layoutX="92.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblRightValue" layoutX="78.0" layoutY="107.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                </AnchorPane>
+            </Tab>
+        </TabPane>
+      <Label layoutX="39.0" layoutY="496.0" text="Tempo:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTime" layoutX="88.0" layoutY="498.0" nodeOrientation="LEFT_TO_RIGHT" text="0s" />
     </AnchorPane>
 </HBox>

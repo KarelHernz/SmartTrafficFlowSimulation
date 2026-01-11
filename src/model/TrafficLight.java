@@ -9,22 +9,23 @@ import java.util.HashMap;
 
 public class TrafficLight {
     private final State initialState;
-    private State actualState;
-    private double tempo;
-
     private final HashMap<State, ImageView> lights = new HashMap<>();
     private final Green GREEN = new Green();
     private final Yellow YELLOW = new Yellow();
     private final Red RED = new Red();
 
+    private State actualState;
+    private int time;
+
     public TrafficLight(State state, ImageView greenView, ImageView yellowView, ImageView redView) {
-        this.initialState = state;
-        this.actualState = state;
+        this.initialState = getState(state);
+        this.actualState = this.initialState;
         this.actualState.enter(this);
         this.lights.put(GREEN, greenView);
         this.lights.put(YELLOW, yellowView);
         this.lights.put(RED, redView);
-        this.tempo = 0.0;
+        this.time = 0;
+        updateVisibilities();
     }
 
     public State getState() {
@@ -32,39 +33,47 @@ public class TrafficLight {
     }
 
     public void setGreen(){
-        actualState = GREEN;
-        actualState.enter(this);
-        updateVisibilidade();
+        setState(GREEN);
     }
 
     public void setYellow(){
-        actualState = YELLOW;
-        actualState.enter(this);
-        updateVisibilidade();
+        setState(YELLOW);
     }
 
     public void setRed(){
-        actualState = RED;
+        setState(RED);
+    }
+
+    private void setState(State state) {
+        actualState = state;
         actualState.enter(this);
-        updateVisibilidade();
+        updateVisibilities();
+        resetTime();
     }
 
-    public void addTempo(double deltaTime) {
-        this.tempo += deltaTime;
+    private State getState(State state) {
+        return switch (state) {
+            case Green green -> GREEN;
+            case Yellow yellow -> YELLOW;
+            case Red red -> RED;
+            case null, default -> RED;
+        };
     }
 
-    public void resetTempo() {this.tempo = 0.0;}
-
-    public double getTempo() {return this.tempo;}
-
-    public void updateTempo(double deltaTime) {
-        addTempo(deltaTime);
-        actualState.update(this, deltaTime);
-
-        updateVisibilidade();
+    public void resetTime() {
+        this.time = 0;
     }
 
-    public void updateVisibilidade(){
+    public double getTime() {
+        return this.time;
+    }
+
+    public void incrementTime() {
+        this.time++;
+    }
+
+    //Muda a visibilidade dos imagesView dos semáforos
+    public void updateVisibilities(){
         for (State st : lights.keySet()) {
             ImageView light = lights.get(st);
             if (light != null) {
@@ -74,9 +83,9 @@ public class TrafficLight {
     }
 
     public void reset(){
-        tempo = 0.0;
+        resetTime();
         actualState = initialState;
         actualState.enter(this);
-        updateVisibilidade();
+        updateVisibilities();
     }
 }

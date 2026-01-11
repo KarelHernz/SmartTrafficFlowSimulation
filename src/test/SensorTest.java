@@ -5,23 +5,25 @@ import model.Road;
 import model.Sensor;
 import model.Vehicle;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SensorTest {
     @Test
     void main() {
-        Road road = new Road(4);
+        Road road = new Road(4, new ArrayList<>() {
+        });
         Sensor sensor = new Sensor(road);
+        HashMap<String, Double> destino = new HashMap<>();
+        destino.put("X", 4.3);
+        destino.put("Y", 4.3);
         int result;
 
-        Map<String, Double> mapGenerico = new HashMap<>();
-        mapGenerico.put("xpto", 4.3);
-
-        //region Round 1 - Todos os veiculos em movimento
-        Vehicle vehicleRound1 = new Vehicle("Verde", new ImageView(), mapGenerico, mapGenerico);
+        //region Todos os veículos em movimento
+        Vehicle vehicleRound1 = new Vehicle(new ImageView(), destino);
 
         for (int i = 0; i <= 4; i++){
             road.addVehicle(1, vehicleRound1);
@@ -31,13 +33,13 @@ class SensorTest {
             road.addVehicle(3, vehicleRound1);
         }
 
-        result = sensor.countAllVehicles();
+        result = sensor.countAllStoppedVehicles();
         assertEquals(0, result);
         //endregion
 
-        //region Round 2 - Veiculos das vias 2 e 3 que não estão em movimento
-        Vehicle vehicleRound2 = new Vehicle("Verde", new ImageView(), mapGenerico, mapGenerico);
-        vehicleRound2.setEmMovimento(false);
+        //region Veículos das vias 2 e 3 que não estão em movimento
+        Vehicle vehicleRound2 = new Vehicle(new ImageView(), destino);
+        vehicleRound2.setMovimento(false);
 
         for (int i = 0; i <= 4; i++){
             road.addVehicle(2, vehicleRound2);
@@ -47,7 +49,7 @@ class SensorTest {
             road.addVehicle(3, vehicleRound2);
         }
 
-        result = sensor.countAllVehicles();
+        result = sensor.countAllStoppedVehicles();
         assertEquals(12, result);
         //endregion
     }
