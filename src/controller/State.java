@@ -3,6 +3,8 @@ package controller;
 import model.TrafficLight;
 
 public interface State {
+    double TEMPO = 8.0;
+
     //muda de cor e reinicia o temporizador
     void enter(TrafficLight trafficLight);
 
