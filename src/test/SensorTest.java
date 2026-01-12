@@ -14,8 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SensorTest {
     @Test
     void main() {
-        Road road = new Road(4, new ArrayList<>() {
-        });
+        Road road = new Road(4, new ArrayList<>() {});
         Sensor sensor = new Sensor(road);
         HashMap<String, Double> destino = new HashMap<>();
         destino.put("X", 4.3);
