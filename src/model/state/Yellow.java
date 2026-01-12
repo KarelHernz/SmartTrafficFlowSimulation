@@ -4,24 +4,16 @@ import controller.State;
 import model.TrafficLight;
 
 public class Yellow implements State {
-    private final double TEMPO = 4.0;
-
     @Override
     public void enter(TrafficLight trafficLight) {
-        trafficLight.setCor(TrafficLight.Cor.YELLOW);
         trafficLight.resetTempo();
     }
 
     @Override
     public void update(TrafficLight trafficLight, double deltaTime) {
         trafficLight.addTempo(deltaTime);
-        if (trafficLight.getTempo() >= TEMPO) {
-            trafficLight.setState(new Red());
+        if (trafficLight.getTempo() >= TEMPO/2) {
+            trafficLight.setRed();
         }
-    }
-
-    @Override
-    public TrafficLight.Cor getCor() {
-        return TrafficLight.Cor.YELLOW;
     }
 }

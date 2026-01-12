@@ -3,65 +3,80 @@ package model;
 import controller.State;
 import javafx.scene.image.ImageView;
 import model.state.Green;
+import model.state.Red;
+import model.state.Yellow;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TrafficLight {
-    public enum Cor { YELLOW, RED, GREEN }
-    private State state;
-    private Double tempo;
-    private Cor cor;
-    private final Map<Cor, ImageView> lights = new HashMap<>();
+    private final State initialState;
+    private State actualState;
+    private double tempo;
 
-    public TrafficLight(ImageView imageView1, ImageView imageView2) {
-        this.lights.put(Cor.GREEN, imageView1);
-        this.lights.put(Cor.RED, imageView2);
-        this.state = new Green();
-        this.state.enter(this);
+    private final HashMap<State, ImageView> lights = new HashMap<>();
+    private final Green GREEN = new Green();
+    private final Yellow YELLOW = new Yellow();
+    private final Red RED = new Red();
 
-        updateVisibilidade();
+    public TrafficLight(State state, ImageView greenView, ImageView yellowView, ImageView redView) {
+        this.initialState = state;
+        this.actualState = state;
+        this.actualState.enter(this);
+        this.lights.put(GREEN, greenView);
+        this.lights.put(YELLOW, yellowView);
+        this.lights.put(RED, redView);
+        this.tempo = 0.0;
     }
 
     public State getState() {
-        return state;
+        return actualState;
     }
 
-    public void setState(State novoState) {
-        this.state = novoState;
-        this.state.enter(this);
-        this.state.update(this, 0.0);
+    public void setGreen(){
+        actualState = GREEN;
+        actualState.enter(this);
+        updateVisibilidade();
+    }
+
+    public void setYellow(){
+        actualState = YELLOW;
+        actualState.enter(this);
+        updateVisibilidade();
+    }
+
+    public void setRed(){
+        actualState = RED;
+        actualState.enter(this);
+        updateVisibilidade();
     }
 
     public void addTempo(double deltaTime) {
-          this.tempo += deltaTime;
+        this.tempo += deltaTime;
     }
 
     public void resetTempo() {this.tempo = 0.0;}
 
-    public Double getTempo() {return this.tempo;}
+    public double getTempo() {return this.tempo;}
 
     public void updateTempo(double deltaTime) {
         addTempo(deltaTime);
+        actualState.update(this, deltaTime);
 
-        if (this.state != null)
-          this.state.update(this, deltaTime);
-
-        updateVisibilidade();
-    }
-
-    public Cor getCor(){ return this.cor; }
-
-    public void setCor(Cor cor) {
-        this.cor = cor;
         updateVisibilidade();
     }
 
     public void updateVisibilidade(){
-        for (Cor c : Cor.values()){
-            ImageView light = lights.get(c);
+        for (State st : lights.keySet()) {
+            ImageView light = lights.get(st);
             if (light != null) {
-                light.setVisible(c == this.cor);
+                light.setVisible(st == this.actualState);
             }
         }
+    }
+
+    public void reset(){
+        tempo = 0.0;
+        actualState = initialState;
+        actualState.enter(this);
+        updateVisibilidade();
     }
 }

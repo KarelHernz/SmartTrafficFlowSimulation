@@ -8,7 +8,4 @@ public interface State {
 
     //muda o estado atual por outro
     void update(TrafficLight trafficLight, double deltaTime);
-
-    //devolve a cor atual do semáforo
-    TrafficLight.Cor getCor();
 }
