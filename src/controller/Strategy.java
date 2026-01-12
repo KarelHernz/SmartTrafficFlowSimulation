@@ -3,5 +3,7 @@ package controller;
 import model.Intersection;
 
 public interface Strategy {
-    void apply(Intersection intersection);
+    int YELLOW_DURATION = 5;
+
+    void update(Intersection intersection);
 }

@@ -6,14 +6,11 @@ import model.TrafficLight;
 public class Green implements State {
     @Override
     public void enter(TrafficLight trafficLight) {
-        trafficLight.resetTempo();
+        trafficLight.resetTime();
     }
 
     @Override
-    public void update(TrafficLight trafficLight, double deltaTime) {
-        trafficLight.addTempo(deltaTime);
-        if (trafficLight.getTempo() >= TEMPO) {
-            trafficLight.setYellow();
-        }
+    public void update(TrafficLight trafficLight) {
+        trafficLight.setYellow();
     }
 }

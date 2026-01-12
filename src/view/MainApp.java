@@ -15,8 +15,9 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ControlPanel.fxml")));
-        var primaryStage = new Stage();
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/semaforo_logo.png")));
+
+        var primaryStage = new Stage();
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Smart Traffic Flow Simulation");
         primaryStage.setScene(new Scene(root,1008, 654));

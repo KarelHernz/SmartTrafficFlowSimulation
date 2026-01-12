@@ -1,60 +1,69 @@
 package model;
 
 import javafx.scene.image.ImageView;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Vehicle {
-    private String cor;
-    private ImageView image;
-    private final Map<String, Double> posicao;
-    private final Map<String, Double> destino;
-    private boolean emMovimento;
+    private final ImageView image;
+    private final HashMap<String, Double> destination;
+    private boolean emMovement;
 
-    public Vehicle(String cor, ImageView image, Map<String, Double> posicao, Map<String, Double> destino) {
-        this.cor = cor;
+    public Vehicle(ImageView image, HashMap<String, Double> destination) {
         this.image = image;
-        this.posicao = posicao;
-        this.destino = destino;
-        this.emMovimento = true;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
+        this.destination = destination;
+        this.emMovement = true;
     }
 
     public ImageView getImage() {
         return image;
     }
 
-    public void setImage(ImageView image) {
-        this.image = image;
+    public Double getX() {
+        return image.getLayoutX();
     }
 
-    public Double getPosicao(String eixo) {
-        return posicao.getOrDefault(eixo, 0.0);
+    public Double getY() {
+        return image.getLayoutY();
     }
 
-    public void setPosicao(String eixo, Double coordenada) {
-        this.posicao.put(eixo, coordenada);
+    public void setX(Double coordinate) {
+        image.setLayoutX(coordinate);
     }
 
-    public Double getDestino(String eixo) {
-        return destino.getOrDefault(eixo, 0.0);
+    public void setY(Double coordinate) {
+        image.setLayoutY(coordinate);
     }
 
-    public void setDestino(String eixo, Double coordenada) {
-        this.destino.put(eixo, coordenada);
+    public Double getDestinationX() {
+        return destination.get("X");
     }
 
-    public boolean isEmMovimento() {
-        return emMovimento;
+    public Double getDestinationY() {
+        return destination.get("Y");
     }
 
-    public void setEmMovimento(boolean emMovimento) {
-        this.emMovimento = emMovimento;
+    public boolean isEmMovement() {
+        return emMovement;
+    }
+
+    public void setMovimento(boolean emMovimento) {
+        this.emMovement = emMovimento;
+    }
+
+    //Método para atualizar a posição do veiculo
+    public void update(){
+        if (!isEmMovement()) {
+            return;
+        }
+
+        //Como os veiculos só se movimentam de forma retilinea só mudamos um dos dois eixos
+        //Vai mudar no eixo do x
+        if (!(Objects.equals(getX(), getDestinationX()))){
+            setX((getX() > getDestinationX()) ? getX() - 1 : getX() + 1);
+        } //Vai mudar no eixo do y
+        else if (!(Objects.equals(getY(), getDestinationY()))){
+            setY((getY() > getDestinationY()) ? getY() - 1 : getY() + 1);
+        }
     }
 }

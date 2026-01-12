@@ -1,73 +1,109 @@
 package view;
 
+import controller.AdaptiveCycle;
+import controller.FixedCycle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import model.World;
+import util.JsonExporter;
+import util.Statistics;
 
 public class ControlPanel implements Initializable {
     @FXML
-    private ImageView ivMapa;
+    public Pane vehiclesPane;
     @FXML
-    private ImageView ivLeftGreenLigth;
+    public ImageView ivLeftGreenLight;
     @FXML
-    private ImageView ivLeftYellowLigth;
+    public ImageView ivLeftYellowLight;
     @FXML
-    private ImageView ivRigthGreenLigth;
+    public ImageView ivRightGreenLight;
     @FXML
-    private ImageView ivRigthYellowLigth;
+    public ImageView ivRightYellowLight;
     @FXML
-    private ImageView ivTopRedLigth;
+    public ImageView ivTopRedLight;
     @FXML
-    private ImageView ivTopYellowLigth;
+    public ImageView ivTopYellowLight;
     @FXML
-    private ImageView ivBottomRedLigth;
+    public ImageView ivBottomRedLight;
     @FXML
-    private ImageView ivBottomYellowLigth;
+    public ImageView ivBottomYellowLight;
     @FXML
-    private ComboBox<String> cbVelocidade;
+    public ComboBox<String> cbSpeed;
     @FXML
-    private TreeView<String> tvEstadisticas;
+    public Label lblRedValue;
+    @FXML
+    public Label lblWhiteValue;
+    @FXML
+    public Label lblGoldenValue;
+    @FXML
+    public Label lblPulpleValue;
+    @FXML
+    public Label lblBlueValue;
+    @FXML
+    public Label lblBottomValue;
+    @FXML
+    public Label lblTopValue;
+    @FXML
+    public Label lblLeftValue;
+    @FXML
+    public Label lblRightValue;
+    @FXML
+    public Label lblTime;
 
     private World world;
+    private Statistics statistics;
 
     //Função que corre quando inicia o programa
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cbVelocidade.getItems().addAll("Pausa", "x1", "x1.5", "x2");
-        cbVelocidade.setValue("x1");
+        cbSpeed.getItems().addAll("Pausa", "x1", "x1.5", "x2");
+        cbSpeed.setValue("x1");
 
-        var root = makeTreeView();
-        tvEstadisticas.setRoot(root);
-        tvEstadisticas.setShowRoot(false);
+        ArrayList<ImageView> lightsImageViewList = new ArrayList<>();
+        lightsImageViewList.add(ivTopYellowLight);
+        lightsImageViewList.add(ivTopRedLight);
+        lightsImageViewList.add(ivBottomYellowLight);
+        lightsImageViewList.add(ivBottomRedLight);
+        lightsImageViewList.add(ivLeftGreenLight);
+        lightsImageViewList.add(ivLeftYellowLight);
+        lightsImageViewList.add(ivRightGreenLight);
+        lightsImageViewList.add(ivRightYellowLight);
 
-        ArrayList<ImageView> imageViewList = new ArrayList<>();
-        imageViewList.add(ivTopYellowLigth);
-        imageViewList.add(ivTopRedLigth);
-        imageViewList.add(ivBottomYellowLigth);
-        imageViewList.add(ivBottomRedLigth);
-        imageViewList.add(ivLeftGreenLigth);
-        imageViewList.add(ivLeftYellowLigth);
-        imageViewList.add(ivRigthGreenLigth);
-        imageViewList.add(ivRigthYellowLigth);
+        statistics = new Statistics();
+        statistics.addVehiclesColors("Red");
+        statistics.addVehiclesColors("White");
+        statistics.addVehiclesColors("Golden");
+        statistics.addVehiclesColors("Purple");
+        statistics.addVehiclesColors("Blue");
 
-        world = new World(imageViewList, ivMapa);
+        statistics.addIntersection("Top");
+        statistics.addIntersection("Bottom");
+        statistics.addIntersection("Left");
+        statistics.addIntersection("Right");
+
+        world = new World(this, lightsImageViewList, statistics);
     }
 
     public void changeFixedCycle(){
-
+        world.changeCycle(new FixedCycle());
     }
 
     public void changeAdaptativeCycle(){
-
+        world.changeCycle(new AdaptiveCycle());
     }
 
+    //Função para mudar a velocidade
     public void changeSpeed(){
-        switch (cbVelocidade.getValue()){
+        switch (cbSpeed.getValue()){
             case "Pausa":
                 world.changeSpeed(0);
                 break;
@@ -75,7 +111,7 @@ public class ControlPanel implements Initializable {
                 world.changeSpeed(1);
                 break;
             case "x1.5":
-                world.changeSpeed(1.5F);
+                world.changeSpeed(1.5f);
                 break;
             case "x2":
                 world.changeSpeed(2);
@@ -84,40 +120,51 @@ public class ControlPanel implements Initializable {
     }
 
     public void reset(){
-        var root = makeTreeView();
-        tvEstadisticas.setRoot(root);
+        world.reset();
+        vehiclesPane.getChildren().clear();
+        updateLabels();
     }
 
-    public void exportar(){
+    public void export(){
+        try {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            JsonExporter jsonExporter = new JsonExporter();
+            File file = directoryChooser.showDialog(new Stage());
+
+            if (file != null) {
+                world.changeSpeed(0);
+                cbSpeed.setValue("Pausa");
+                jsonExporter.export(statistics, file.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //Planilha para criar a TreeView onde vão ser apresentadas as estadísticas
-    public TreeItem<String> makeTreeView() {
-        TreeItem<String> root = new TreeItem<>();
-        TreeItem<String> rootVehicle = new TreeItem<>("Carros");
-        TreeItem<String> rootIntersection = new TreeItem<>("Intersecção");
-        TreeItem<String> rootTime = new TreeItem<>("Tempo: 0s");
+    //Função para mudar o texto das labels das estatísticas
+    public void updateLabels(){
+        //Carros
+        lblRedValue.setText(statistics.getVehiclesValue("Red").toString());
+        lblWhiteValue.setText(statistics.getVehiclesValue("White").toString());
+        lblGoldenValue.setText(statistics.getVehiclesValue("Golden").toString());
+        lblPulpleValue.setText(statistics.getVehiclesValue("Purple").toString());
+        lblBlueValue.setText(statistics.getVehiclesValue("Blue").toString());
 
-        rootVehicle.getChildren().addAll(
-                new TreeItem<>("Vermelhos: 0"),
-                new TreeItem<>("Brancos: 0"),
-                new TreeItem<>("Dorados: 0"),
-                new TreeItem<>("Roxos: 0")
-        );
+        //Intersecção
+        lblBottomValue.setText(statistics.getIntersectionValue("Bottom").toString());
+        lblTopValue.setText(statistics.getIntersectionValue("Top").toString());
+        lblLeftValue.setText(statistics.getIntersectionValue("Left").toString());
+        lblRightValue.setText(statistics.getIntersectionValue("Right").toString());
 
-        rootIntersection.getChildren().addAll(
-                new TreeItem<>("Encima: 0"),
-                new TreeItem<>("Embaixo: 0"),
-                new TreeItem<>("Esquerda: 0"),
-                new TreeItem<>("Direita: 0")
-        );
+        //Tempo
+        lblTime.setText(statistics.getTimeElapsed());
+    }
 
-        TreeItem<String> rootTotal = new TreeItem<>("Total");
-        rootTotal.getChildren().add(rootVehicle);
-        rootTotal.getChildren().add(rootIntersection);
-        rootTotal.getChildren().add(rootTime);
-        rootTotal.setExpanded(true);
-        root.getChildren().add(rootTotal);
-        return root;
+    public void addImageView(ImageView imageViewVehicle){
+        vehiclesPane.getChildren().add(imageViewVehicle);
+    }
+
+    public Pane getVehiclesPane(){
+        return vehiclesPane;
     }
 }
