@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="657.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ControlPanel">
-    <AnchorPane fx:id="mapAnchorPane" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="658.0">
+    <AnchorPane maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="658.0">
         <ImageView fitHeight="657.0" fitWidth="668.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../img/road_intersection.jpg" />
         </ImageView>
@@ -65,24 +65,24 @@
         <Button fx:id="bttExportar" accessibleHelp="Exportar CSV" accessibleRoleDescription="Exportar CSV" accessibleText="Exportar CSV" layoutX="191.0" layoutY="537.0" mnemonicParsing="false" onAction="#export" text="Exportar JSON" />
         <ComboBox fx:id="cbSpeed" focusTraversable="false" layoutX="38.0" layoutY="228.0" onAction="#changeSpeed" prefHeight="25.0" prefWidth="131.0" value="x1" visibleRowCount="4" />
         <Button fx:id="bttReset" accessibleHelp="Reset" accessibleRoleDescription="Reset" accessibleText="Reset" layoutX="130.0" layoutY="537.0" mnemonicParsing="false" onAction="#reset" text="Reset" />
-        <Label layoutX="38.0" layoutY="291.0" text="Estadísticas">
+        <Label layoutX="38.0" layoutY="291.0" text="Estatísticas">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <RadioButton fx:id="rbAdaptativo" layoutX="106.0" layoutY="151.0" mnemonicParsing="false" onAction="#changeAdaptativeCycle" text="Adaptativo">
+        <RadioButton layoutX="106.0" layoutY="151.0" mnemonicParsing="false" onAction="#changeAdaptativeCycle" text="Adaptativo">
          <toggleGroup>
                 <ToggleGroup fx:id="grpModo" />
          </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="rbFixo" layoutX="39.0" layoutY="151.0" mnemonicParsing="false" onAction="#changeFixedCycle" selected="true" text="Fixo" toggleGroup="$grpModo" />
+        <RadioButton layoutX="39.0" layoutY="151.0" mnemonicParsing="false" onAction="#changeFixedCycle" selected="true" text="Fixo" toggleGroup="$grpModo" />
         <Label layoutX="38.0" layoutY="128.0" text="Modo">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
         <TabPane layoutX="38.0" layoutY="314.0" prefHeight="163.0" prefWidth="246.0" tabClosingPolicy="UNAVAILABLE">
-            <Tab fx:id="tabVehicles" text="Carros">
+            <Tab text="Carros">
                 <AnchorPane layoutX="246.0" layoutY="314.0" minHeight="0.0" minWidth="0.0" prefHeight="149.0" prefWidth="246.0">
                     <Label layoutX="14.0" layoutY="14.0" text="Vermelhos:" />
                     <Label layoutX="14.0" layoutY="33.0" text="Brancos:" />
@@ -92,14 +92,14 @@
                     <Label fx:id="lblRedValue" layoutX="76.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                     <Label fx:id="lblWhiteValue" layoutX="62.0" layoutY="33.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                     <Label fx:id="lblGoldenValue" layoutX="72.0" layoutY="52.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
-                    <Label fx:id="lblPulpleValue" layoutX="51.0" layoutY="71.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblPurpleValue" layoutX="51.0" layoutY="71.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                     <Label fx:id="lblBlueValue" layoutX="49.0" layoutY="91.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                 </AnchorPane>
             </Tab>
-            <Tab fx:id="tabIntersection" text="Intersecção">
+            <Tab text="Intersecção">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <Label layoutX="38.0" layoutY="31.0" text="Encima:" />
-                    <Label layoutX="38.0" layoutY="50.0" text="Embaixo:" />
+                    <Label layoutX="38.0" layoutY="50.0" text="Em baixo: " />
                     <Label layoutX="14.0" layoutY="71.0" text="Horizontal" underline="true">
                         <font>
                             <Font name="System Bold" size="12.0" />
@@ -112,7 +112,7 @@
                         </font>
                     </Label>
                     <Label layoutX="38.0" layoutY="107.0" text="Direita:" />
-                    <Label fx:id="lblBottomValue" layoutX="88.0" layoutY="50.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
+                    <Label fx:id="lblBottomValue" layoutX="92.0" layoutY="50.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                     <Label fx:id="lblTopValue" layoutX="82.0" layoutY="31.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                     <Label fx:id="lblLeftValue" layoutX="92.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />
                     <Label fx:id="lblRightValue" layoutX="78.0" layoutY="107.0" nodeOrientation="LEFT_TO_RIGHT" text="0" />

@@ -10,7 +10,7 @@ public class Sensor {
     //Devolve o número de veículos que não estão em movimento de todas as vias de uma road
     public Integer countAllStoppedVehicles(){
         int result = 0;
-        for(int i = 1; i <= road.getNVias(); i++){
+        for(int i = 1; i <= road.getNumberOfLanes(); i++){
             int numVeiculos = 0;
             var vehicles = road.getVehicles(i);
 

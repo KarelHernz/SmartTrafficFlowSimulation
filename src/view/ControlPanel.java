@@ -45,7 +45,7 @@ public class ControlPanel implements Initializable {
     @FXML
     public Label lblGoldenValue;
     @FXML
-    public Label lblPulpleValue;
+    public Label lblPurpleValue;
     @FXML
     public Label lblBlueValue;
     @FXML
@@ -147,7 +147,7 @@ public class ControlPanel implements Initializable {
         lblRedValue.setText(statistics.getVehiclesValue("Red").toString());
         lblWhiteValue.setText(statistics.getVehiclesValue("White").toString());
         lblGoldenValue.setText(statistics.getVehiclesValue("Golden").toString());
-        lblPulpleValue.setText(statistics.getVehiclesValue("Purple").toString());
+        lblPurpleValue.setText(statistics.getVehiclesValue("Purple").toString());
         lblBlueValue.setText(statistics.getVehiclesValue("Blue").toString());
 
         //Intersecção

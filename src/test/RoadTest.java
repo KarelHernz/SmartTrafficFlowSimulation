@@ -1,26 +1,32 @@
 package test;
 
 import javafx.scene.image.ImageView;
+import model.Lane;
 import model.Road;
 import model.Vehicle;
 import org.junit.jupiter.api.Test;
-
+import util.Coordinate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoadTest {
     @Test
     void main() {
-        Road road = new Road(4, new ArrayList<>());
-        HashMap<String, Double> destino = new HashMap<>();
-        destino.put("X", 4.3);
-        destino.put("Y", 4.3);
+        ArrayList<Lane> lanes = new ArrayList<>();
+        for (int i = 0; i < 4; i++){
+            Coordinate start = new Coordinate(100.0, 20.0);
+            Coordinate end = new Coordinate(100.0+(i+1), 20.0);
+            Coordinate stop = new Coordinate(100.0, 20.0+(i+1));
+            lanes.add(new Lane(start, end, stop));
+        }
+
+        Road road = new Road(lanes, new ArrayList<>());
+        Coordinate destino = new Coordinate(4.3, 4.3);
 
         //region Sem veículos
-        assertEquals(4, road.getNVias());
-        assertEquals(3, road.getMaxVehiclesStoped());
+        assertEquals(4, road.getNumberOfLanes());
+        assertEquals(3, road.getMaxVehiclesStopped(1));
         assertEquals(0, road.getNumberOfVehicles(1));
         assertEquals(0, road.getNumberOfVehicles(2));
         assertEquals(0, road.getNumberOfVehicles(3));
@@ -41,24 +47,20 @@ class RoadTest {
         assertEquals(0, road.getNumberOfVehicles(4));
         //endregion
 
-        //region Eliminar o primeiro veículo
-        road.removeVehicle(1);
-        for (int i = 0; i < 4; i++){
-            road.removeVehicle(3);
-        }
-        assertEquals(0, road.getNumberOfVehicles(1));
-        assertEquals(6, road.getNumberOfVehicles(3));
-        //endregion
-
         //region Limpar o Road
-        road.clearRoad();
+        road.clear();
         assertEquals(0, road.getNumberOfVehicles(1));
         assertEquals(0, road.getNumberOfVehicles(2));
         assertEquals(0, road.getNumberOfVehicles(3));
         assertEquals(0, road.getNumberOfVehicles(4));
         //endregion
 
-        //region Coordinates
-        var l = road.getCoordinates(1);
+        //region Obter as coordenadas iniciais e finais de uma via
+        assertEquals(100.0, road.getLaneStart(1).getX());
+        assertEquals(20.0, road.getLaneEnd(1).getY());
+
+        assertEquals(103.0, road.getLaneEnd(3).getX());
+        assertEquals(20.0, road.getLaneEnd(3).getY());
+        //endregion
     }
 }

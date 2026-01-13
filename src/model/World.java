@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.state.Green;
 import model.state.Red;
-import util.Coordinates;
+import util.Coordinate;
 import util.Statistics;
 import util.TimeElapsed;
 import view.ControlPanel;
@@ -28,42 +28,69 @@ public class World{
     public World(ControlPanel controlPanel, ArrayList<ImageView> imagesViews, Statistics statistics){
         this.controlPanel = controlPanel;
 
-        //Cria um HashMap de imagens dos veículos
+        //region HashMap de imagens dos veículos
         vehicleImages.put("Blue", new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/blue_car.png"))));
         vehicleImages.put("Golden", new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/golden_car.png"))));
         vehicleImages.put("Purple", new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/purple_car.png"))));
         vehicleImages.put("Red", new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/red_car.png"))));
         vehicleImages.put("White", new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/white_car.png"))));
+        //endregion
 
-        /* Horizontal -
-            Via 1: V1: x=510.0; V2: x=567.0; V3: x=624.0 | y=243.0
-            Via 2: V1: x=510.0; V2: x=567.0; V3: x=624.0 | y=278.0
-            Via 3: V1: x=119.0; V2: x=62.0; V3: x=5 | y=330.0
-            Via 4: V1: x=119.0; V2: x=62.0; V3: x=5 | y=365.0
+        //region HashMap das coordenadas do início e do fim dos lanes
+        HashMap<String, Coordinate> coordinates = new HashMap<>();
+        //Coordenadas iniciais dos lanes horizontais
+        coordinates.put("HStart1", new Coordinate(660.0, 243.0));
+        coordinates.put("HStart2", new Coordinate(660.0, 278.0));
+        coordinates.put("HStart3", new Coordinate(-30.0, 330.0));
+        coordinates.put("HStart4", new Coordinate(-30.0, 365.0));
 
-            Vertical -
-            Via 1: V1: y=109.0; V2: y=52.0; V3: y= -5.0 | x=252.0
-            Via 2: V1: y=109.0; V2: y=52.0; V3: y= -5.0 | x=287.0
-            Via 3: V1: y=500.0; V2: y=557.0; V3: y= 614.0 | x=341.0
-            Via 4: V1: y=500.0; V2: y=557.0; V3: y= 614.0 | x=376.0
-        * */
+        //Coordenadas finais dos lanes horizontais
+        coordinates.put("HEnd1", new Coordinate(-30.0, 243.0));
+        coordinates.put("HEnd2", new Coordinate(-30.0, 278.0));
+        coordinates.put("HEnd3", new Coordinate(660.0, 330.0));
+        coordinates.put("HEnd4", new Coordinate(-30.0, 365.0));
 
-        ArrayList<Coordinates> coordinatesArrayList = new ArrayList<>();
-        //Coordenadas dos lines horizontais
-        coordinatesArrayList.add(new Coordinates(660.0, 243.0, -30.0, 243.0));
-        coordinatesArrayList.add(new Coordinates(660.0, 278.0, -30.0, 278.0));
-        coordinatesArrayList.add(new Coordinates(-30.0, 330.0, 660.0, 330.0));
-        coordinatesArrayList.add(new Coordinates(-30.0, 365.0, 660.0, 365.0));
+        //Coordenadas iniciais dos lanes verticais
+        coordinates.put("VStart1", new Coordinate(252.0, -40.0));
+        coordinates.put("VStart2", new Coordinate(287.0, -40.0));
+        coordinates.put("VStart3", new Coordinate(341.0, 648.0));
+        coordinates.put("VStart4", new Coordinate(376.0, 648.0));
 
-        //Coordenadas dos lines verticais
-        coordinatesArrayList.add(new Coordinates(252.0, -40.0, 252.0, 648.0));
-        coordinatesArrayList.add(new Coordinates(287.0, -40.0, 287.0, 648.0));
-        coordinatesArrayList.add(new Coordinates(341.0, 648.0, 341.0, -40.0));
-        coordinatesArrayList.add(new Coordinates(376.0, 648.0, 376.0, -40.0));
+        //Coordenadas finais dos lanes verticais
+        coordinates.put("VEnd1", new Coordinate(252.0, 648.0));
+        coordinates.put("VEnd2", new Coordinate(287.0, 648.0));
+        coordinates.put("VEnd3", new Coordinate(341.0, -40.00));
+        coordinates.put("VEnd4", new Coordinate(376.0, -40.0));
+        //endregion
+
+        //region HashMap das coordenadas das paradas dos veículos nos semáforos
+        //Lanes horizontais
+        coordinates.put("HStop1", new Coordinate(510.0, 243.0));
+        coordinates.put("HStop2", new Coordinate(510.0, 278.0));
+        coordinates.put("HStop3", new Coordinate(119.0, 330.0));
+        coordinates.put("HStop4", new Coordinate(119.0, 365.0));
+
+        //Lanes verticais
+        coordinates.put("VStop1", new Coordinate(109.0, 252.0));
+        coordinates.put("VStop2", new Coordinate(109.0, 287.0));
+        coordinates.put("VStop3", new Coordinate(500.0, 341.0));
+        coordinates.put("VStop4", new Coordinate(500.0, 376.0));
+        //endregion
+
+        //ArrayList das vias verticais e horizontais com as várias coordenadas dos HashMaps anteriores
+        ArrayList<Lane> horizontalLanes = new ArrayList<>();
+        ArrayList<Lane> verticalLanes = new ArrayList<>();
+        for (int i = 1; i < 5; i++) {
+            Lane laneHorizontal = new Lane(coordinates.get("HStart"+i), coordinates.get("HEnd"+i), coordinates.get("HStop"+i));
+            Lane laneVertical = new Lane(coordinates.get("VStart"+i), coordinates.get("VEnd"+i), coordinates.get("VStop"+i));
+            horizontalLanes.add(laneHorizontal);
+            verticalLanes.add(laneVertical);
+        }
 
         Red red = new Red();
         Green green = new Green();
 
+        //region ArrayList de TrafficLights
         //Define o road vertical com os semáforos de cor vermelho
         ArrayList<TrafficLight> tlVerticalList = new ArrayList<>();
         tlVerticalList.add(new TrafficLight(red, null, imagesViews.getFirst(), imagesViews.get(1)));
@@ -73,15 +100,11 @@ public class World{
         ArrayList<TrafficLight> tlHorizontalList = new ArrayList<>();
         tlHorizontalList.add(new TrafficLight(green, imagesViews.get(4), imagesViews.get(5), null));
         tlHorizontalList.add(new TrafficLight(green, imagesViews.get(6), imagesViews.get(7), null));
+        //endregion
 
-        //Cria os roads e o número de vias que este vai ter
-        int numVias = 4;
-        verticalRoad = new Road(numVias, tlVerticalList);
-        horizontalRoad = new Road(numVias, tlHorizontalList);
-        for(int via = 1; via <= numVias; via++){
-            horizontalRoad.addCoords(via, coordinatesArrayList.get(via-1));
-            verticalRoad.addCoords(via, coordinatesArrayList.get(numVias+(via-1)));
-        }
+        //Criação dos roads
+        verticalRoad = new Road(verticalLanes, tlVerticalList);
+        horizontalRoad = new Road(horizontalLanes, tlHorizontalList);
 
         this.intersection = new Intersection(new FixedCycle());
         intersection.addRoad(verticalRoad);
@@ -149,19 +172,18 @@ public class World{
 
     public void changeCycle(Strategy strategy){
         intersection.changeStrategy(strategy);
-        System.out.println(intersection.getStrategy());
     }
 
-    //Método para inserir do método os veiculos no road
+    //Método para inserir veículos no road
     private void updateRoad(Road road, Boolean isVertical){
-        for (int v = 1; v <= road.getNVias(); v++) {
-            //Cálculo do número de veiculos no road
+        for (int v = 1; v <= road.getNumberOfLanes(); v++) {
+            //Cálculo do número de veículos no road
             int numVehicles = road.getNumberOfVehicles(v);
-            int limitOfVehicles = road.getMaxVehiclesStoped();
+            int limitOfVehicles = road.getMaxVehiclesStopped(v);
             int vehiclesRemainder = limitOfVehicles - numVehicles;
             //----------------------------------------------------//
 
-            //Se ouver espaço para mais um veiculo no road, gera de forma aleatória um novo veiculo
+            //Se ouver espaço para mais um veículo no road, gera de forma aleatória um novo veículo
             if (vehiclesRemainder > 0) {
                 //Devolve um número entre 0 e 1
                 int numRandom = (int) (Math.random() * 2);
@@ -170,7 +192,7 @@ public class World{
                     road.addVehicle(v, vehicle);
                 }
 
-                //Atualiza o contador da direção onde aparecem os veiculos nas estadisticas
+                //Atualiza o contador da direção onde aparecem os veículos nas estatísticas
                 String direction = getDirection(isVertical, v);
                 int result = statistics.getIntersectionValue(direction);
                 statistics.updateIntersection(direction, result+numRandom);
@@ -178,7 +200,7 @@ public class World{
         }
     }
 
-    //Obtem em qual direção apareceu o veículo
+    //Obtém em qual direção apareceu o veículo
     private String getDirection(boolean isVertical, int nVia){
         if (isVertical){
             return (nVia == 1 || nVia == 2) ? "Top" : "Bottom";
@@ -187,7 +209,7 @@ public class World{
         return (nVia == 1 || nVia == 2)  ? "Right" : "Left";
     }
 
-    //Método para gerar os veiculos
+    //Método para gerar os veículos
     private Vehicle generateVehicle(Integer nVia, Boolean isVertical){
         //Cores que vão ter os veículos
         String[] vehicleColors = {"Blue", "Golden", "Purple", "Red", "White"};
@@ -202,12 +224,18 @@ public class World{
         ImageView imageViewVehicle = new ImageView();
         imageViewVehicle.setImage(image);
 
-        //O LineCoords tem as coordenadas dos lines que aparecem no ImageView do mapa
-        Coordinates viaLineCords = (isVertical) ? verticalRoad.getCoordinates(nVia) : horizontalRoad.getCoordinates(nVia);
+        /* Os veículos vão numa única direção dos eixos X e Y:
+           X - Quando o veículo vai numa road em horizontal
+           Y - Quando o veículo vai numa road em vertical */
+        Coordinate start = (isVertical) ? verticalRoad.getLaneStart(nVia)
+                                        : horizontalRoad.getLaneStart(nVia);
+
+        Coordinate end = (isVertical) ? verticalRoad.getLaneEnd(nVia)
+                                      : horizontalRoad.getLaneEnd(nVia);
 
         //Define a posição na qual vai aparecer a imageView
-        imageViewVehicle.setLayoutX(viaLineCords.getLayoutX());
-        imageViewVehicle.setLayoutY(viaLineCords.getLayoutY());
+        imageViewVehicle.setLayoutX(start.getX());
+        imageViewVehicle.setLayoutY(start.getY());
 
         //Configura o tamanho da imagemView
         imageViewVehicle.setFitWidth(27);
@@ -230,14 +258,7 @@ public class World{
         int result = statistics.getVehiclesValue(color);
         statistics.updateVehiclesColors(color, ++result);
 
-        /* Os veículos vão numa única direção dos eixos X e Y:
-           X - Quando o veículo vai numa road em horizontal
-           Y - Quando o veículo vai numa road em vertical */
-        HashMap<String, Double> destino = new HashMap<>();
-        destino.put("X", viaLineCords.getDestinationX());
-        destino.put("Y", viaLineCords.getDestinationY());
-
-        return new Vehicle(imageViewVehicle, destino);
+        return new Vehicle(imageViewVehicle, end);
     }
 
     public void reset(){

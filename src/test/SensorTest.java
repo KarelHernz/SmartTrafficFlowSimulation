@@ -1,24 +1,27 @@
 package test;
 
 import javafx.scene.image.ImageView;
+import model.Lane;
 import model.Road;
 import model.Sensor;
 import model.Vehicle;
 import org.junit.jupiter.api.Test;
-
+import util.Coordinate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SensorTest {
     @Test
     void main() {
-        Road road = new Road(4, new ArrayList<>() {});
+        ArrayList<Lane> lanes = new ArrayList<>();
+        for (int i = 0; i < 4; i++){
+            lanes.add(new Lane(null, null, null));
+        }
+
+        Road road = new Road(lanes, new ArrayList<>() {});
         Sensor sensor = new Sensor(road);
-        HashMap<String, Double> destino = new HashMap<>();
-        destino.put("X", 4.3);
-        destino.put("Y", 4.3);
+        Coordinate destino = new Coordinate(4.3, 4.3);
         int result;
 
         //region Todos os veículos em movimento
@@ -32,8 +35,7 @@ class SensorTest {
             road.addVehicle(3, vehicleRound1);
         }
 
-        result = sensor.countAllStoppedVehicles();
-        assertEquals(0, result);
+        assertEquals(0, sensor.countAllStoppedVehicles());
         //endregion
 
         //region Veículos das vias 2 e 3 que não estão em movimento
