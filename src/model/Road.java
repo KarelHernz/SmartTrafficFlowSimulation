@@ -1,69 +1,57 @@
 package model;
 
 import javafx.scene.layout.Pane;
-import util.Coordinates;
+import util.Coordinate;
 import java.util.*;
 
 public class Road {
-    private final Map<Integer, LinkedList<Vehicle>> pista = new HashMap<>();
-    private final Map<Integer, Coordinates> coords = new HashMap<>();
-    private final List<TrafficLight> trafficLights = new ArrayList<>();
+    private final ArrayList<Lane> lanes;
+    private final ArrayList<TrafficLight> trafficLights = new ArrayList<>();
     private final Sensor sensor;
-    private final Integer nVias;
-    private final Integer maxVehiclesStoped = 3;
 
-    public Road(Integer nVia, List<TrafficLight> trafficLights) {
-        this.nVias = nVia;
+    public Road(ArrayList<Lane> lanes,  ArrayList<TrafficLight> trafficLights) {
+        this.lanes = lanes;
         this.sensor = new Sensor(this);
-        for(int i = 1; i <= this.nVias; i++){
-            this.pista.put(i, new LinkedList<>());
-        }
         this.trafficLights.addAll(trafficLights);
     }
 
-    public Integer getNVias() {
-        return this.nVias;
+    public int getNumberOfLanes() {
+        return lanes.size();
     }
 
-    public List<Vehicle> getVehicles(int nVia) {
-        var map = this.pista.get(nVia);
-        return new ArrayList<>(map);
+    public void addVehicle(int nVia, Vehicle vehicle){
+        lanes.get(nVia-1).addVehicle(vehicle);
     }
 
-    public void addVehicle(int nVia, Vehicle v) {
-        this.pista.get(nVia).add(v);
+    public LinkedList<Vehicle> getVehicles(Integer nVia) {
+        return this.lanes.get(nVia-1).getVehicles();
     }
 
     //Retorna o número de veículos que estão numa via
-    public Integer getNumberOfVehicles(int nVia) {
-        return this.pista.get(nVia).size();
+    public int getNumberOfVehicles(int nVia) {
+        return this.lanes.get(nVia-1).getNumberOfVehicles();
     }
 
-    //Remove o primeiro veículo de uma específica via
-    public void removeVehicle(int nVia) {
-        this.pista.get(nVia).removeFirst();
+    public Integer getMaxVehiclesStopped(int nVia) {
+        return lanes.get(nVia-1).getMaxVehiclesStopped();
+    }
+
+    public Coordinate getLaneStart(Integer nVia){
+        return lanes.get(nVia-1).getStart();
+    }
+
+    public Coordinate getLaneEnd(Integer nVia){
+        return lanes.get(nVia-1).getEnd();
     }
 
     //Limpa todos os veículos que estão nas vias
-    public void clearRoad() {
-        for (List<Vehicle> vehicles : pista.values()) {
-            vehicles.clear();
+    public void clear() {
+        for (Lane lane : lanes) {
+            lane.clear();
         }
     }
 
-    public void addCoords(Integer nVia, Coordinates coords){
-        this.coords.put(nVia, coords);
-    }
-
-    public Coordinates getCoordinates(Integer nVia){
-        return this.coords.get(nVia);
-    }
-
-    public Integer getMaxVehiclesStoped() {
-        return this.maxVehiclesStoped;
-    }
-
-    public List<TrafficLight> getTrafficLights() {
+    public ArrayList<TrafficLight> getTrafficLights() {
         return this.trafficLights;
     }
 
@@ -73,9 +61,11 @@ public class Road {
 
     //Atualiza os veículos que estão em cada via das roads
     public void update(Pane vehiclesPane){
-        for (int via = 1; via <= nVias; via++) {
-            List<Vehicle> vehiclesList = getVehicles(via);
-            for (Vehicle vehicle : vehiclesList) {
+        for (int via = 1; via <= getNumberOfLanes(); via++) {
+            Iterator<Vehicle> iterator = getVehicles(via).iterator();
+
+            while (iterator.hasNext()) {
+                Vehicle vehicle = iterator.next();
                 //Verifica se o veículo está em movimento
                 vehicle.update();
                 double x = vehicle.getX();
@@ -86,7 +76,7 @@ public class Road {
                 //Valida se o veiculo chegou ao seu destino
                 if (Objects.equals(x, destinationX) && Objects.equals(y, destinationY)) {
                     vehiclesPane.getChildren().remove(vehicle.getImage());
-                    removeVehicle(via);
+                    iterator.remove();
                 }
             }
         }

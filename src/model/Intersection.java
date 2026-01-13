@@ -1,7 +1,6 @@
 package model;
 
 import controller.Strategy;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +25,6 @@ public class Intersection {
         this.strategy = strategy;
     }
 
-    public Strategy getStrategy() {
-        return strategy;
-    }
-
     //Atualiza o timer dos semáforos dos roads
     public void update(){
         for(Road road: roadList){
@@ -49,7 +44,7 @@ public class Intersection {
         }
 
         for (Road road : roadList) {
-            road.clearRoad();
+            road.clear();
         }
     }
 }

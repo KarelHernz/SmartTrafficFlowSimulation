@@ -19,11 +19,11 @@ public class AdaptiveCycle implements Strategy {
         TrafficLight trafficLight1 = road1.getTrafficLights().getFirst();
         TrafficLight trafficLight2 = road2.getTrafficLights().getFirst();
 
-        //Obtem o road que tem os semáforos em verde, se fossem verdes
+        //Obtém o road que tem os semáforos em verde, se fossem verdes
         Road greenRoad = (trafficLight1.getState() instanceof Green) ? road1 :
                 (trafficLight2.getState() instanceof Green ? road2 : null);
 
-        //Obtem o road que tem os semáforos em amarelo, se fossem amarelos
+        //Obtém o road que tem os semáforos em amarelo, se fossem amarelos
         Road yellowRoad = (trafficLight1.getState() instanceof Yellow) ? road1 :
                 (trafficLight2.getState() instanceof Yellow ? road2 : null);
 

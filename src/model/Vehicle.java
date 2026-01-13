@@ -1,15 +1,15 @@
 package model;
 
 import javafx.scene.image.ImageView;
-import java.util.HashMap;
+import util.Coordinate;
 import java.util.Objects;
 
 public class Vehicle {
     private final ImageView image;
-    private final HashMap<String, Double> destination;
+    private final Coordinate destination;
     private boolean emMovement;
 
-    public Vehicle(ImageView image, HashMap<String, Double> destination) {
+    public Vehicle(ImageView image, Coordinate destination) {
         this.image = image;
         this.destination = destination;
         this.emMovement = true;
@@ -36,11 +36,11 @@ public class Vehicle {
     }
 
     public Double getDestinationX() {
-        return destination.get("X");
+        return destination.getX();
     }
 
     public Double getDestinationY() {
-        return destination.get("Y");
+        return destination.getY();
     }
 
     public boolean isEmMovement() {
@@ -57,7 +57,7 @@ public class Vehicle {
             return;
         }
 
-        //Como os veiculos só se movimentam de forma retilinea só mudamos um dos dois eixos
+        //Como os veículos só se movimentam de forma retilínea só mudamos um dos dois eixos
         //Vai mudar no eixo do x
         if (!(Objects.equals(getX(), getDestinationX()))){
             setX((getX() > getDestinationX()) ? getX() - 1 : getX() + 1);
