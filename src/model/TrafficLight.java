@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class TrafficLight {
     private final State initialState;
     private final HashMap<State, ImageView> lights = new HashMap<>();
-    private final Green GREEN = new Green();
-    private final Yellow YELLOW = new Yellow();
     private final Red RED = new Red();
+    private final Yellow YELLOW = new Yellow();
+    private final Green GREEN = new Green();
 
     private State actualState;
     private int time;
@@ -21,15 +21,11 @@ public class TrafficLight {
         this.initialState = getState(state);
         this.actualState = this.initialState;
         this.actualState.enter(this);
-        this.lights.put(GREEN, greenView);
-        this.lights.put(YELLOW, yellowView);
         this.lights.put(RED, redView);
+        this.lights.put(YELLOW, yellowView);
+        this.lights.put(GREEN, greenView);
         this.time = 0;
         updateVisibilities();
-    }
-
-    public State getState() {
-        return actualState;
     }
 
     public void setGreen(){
@@ -44,6 +40,18 @@ public class TrafficLight {
         setState(RED);
     }
 
+    public boolean isGreen(){
+        return GREEN == actualState;
+    }
+
+    public boolean isYellow(){
+        return YELLOW == actualState;
+    }
+
+    public boolean isRed(){
+        return RED == actualState;
+    }
+
     private void setState(State state) {
         actualState = state;
         actualState.enter(this);
@@ -51,13 +59,10 @@ public class TrafficLight {
         resetTime();
     }
 
+    //Devolve um estado em base à instância do estado entrante
     private State getState(State state) {
-        return switch (state) {
-            case Green green -> GREEN;
-            case Yellow yellow -> YELLOW;
-            case Red red -> RED;
-            case null, default -> RED;
-        };
+        return (state instanceof Green) ? GREEN :
+               (state instanceof Yellow) ? YELLOW : RED;
     }
 
     public void resetTime() {

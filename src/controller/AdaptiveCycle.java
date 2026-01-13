@@ -4,8 +4,6 @@ import model.Intersection;
 import model.Road;
 import model.Sensor;
 import model.TrafficLight;
-import model.state.Green;
-import model.state.Yellow;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +18,12 @@ public class AdaptiveCycle implements Strategy {
         TrafficLight trafficLight2 = road2.getTrafficLights().getFirst();
 
         //Obtém o road que tem os semáforos em verde, se fossem verdes
-        Road greenRoad = (trafficLight1.getState() instanceof Green) ? road1 :
-                (trafficLight2.getState() instanceof Green ? road2 : null);
+        Road greenRoad = (trafficLight1.isGreen()) ? road1 :
+                (trafficLight2.isGreen() ? road2 : null);
 
         //Obtém o road que tem os semáforos em amarelo, se fossem amarelos
-        Road yellowRoad = (trafficLight1.getState() instanceof Yellow) ? road1 :
-                (trafficLight2.getState() instanceof Yellow ? road2 : null);
+        Road yellowRoad = (trafficLight1.isYellow()) ? road1 :
+                (trafficLight2.isYellow() ? road2 : null);
 
         if (yellowRoad != null) {
             TrafficLight yellowLight = yellowRoad.getTrafficLights().getFirst();
