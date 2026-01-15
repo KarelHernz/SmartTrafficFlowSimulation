@@ -95,10 +95,12 @@ public class ControlPanel implements Initializable {
 
     public void changeFixedCycle(){
         world.changeCycle(new FixedCycle());
+        reset();
     }
 
     public void changeAdaptativeCycle(){
         world.changeCycle(new AdaptiveCycle());
+        reset();
     }
 
     //Função para mudar a velocidade

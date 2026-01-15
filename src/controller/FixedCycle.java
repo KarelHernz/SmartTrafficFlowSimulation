@@ -13,7 +13,7 @@ public class FixedCycle implements Strategy {
     public void update(Intersection intersection) {
         List<Road> roadList = new ArrayList<>(intersection.getRoads());
 
-        Road road1 = roadList.get(0);
+        Road road1 = roadList.getFirst();
         Road road2 = roadList.get(1);
         TrafficLight trafficLight1 = road1.getTrafficLights().getFirst();
         TrafficLight trafficLight2 = road2.getTrafficLights().getFirst();

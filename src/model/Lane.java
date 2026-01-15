@@ -34,6 +34,10 @@ public class Lane {
         return MAX_VEHICLES_STOPPED;
     }
 
+    public int getVehiclesStopped(){
+        return (int) vehicles.stream().filter(v -> !v.inMovement()).count();
+    }
+
     public Coordinate getStart(){
         return coordinates.get("Start");
     }

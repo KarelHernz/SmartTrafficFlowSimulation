@@ -25,12 +25,12 @@ class VehicleTest {
         assertEquals(100.0, vehicle.getDestinationX());
         assertEquals(12.5, vehicle.getDestinationY());
         assertEquals(imageView, vehicle.getImage());
-        assertTrue(vehicle.isEmMovement());
+        assertTrue(vehicle.inMovement());
         //endregion
 
         //region Não está em movimento
-        vehicle.setMovimento(false);
-        assertFalse(vehicle.isEmMovement());
+        vehicle.stop();
+        assertFalse(vehicle.inMovement());
         //endregion
 
         //region Mudar a posição do veículo
@@ -38,7 +38,7 @@ class VehicleTest {
         assertEquals(x, vehicle.getX());
         assertEquals(y, vehicle.getY());
 
-        vehicle.setMovimento(true);
+        vehicle.start();
         vehicle.update();
         assertEquals(x+1, vehicle.getX());
         assertEquals(y, vehicle.getY());

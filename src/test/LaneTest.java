@@ -4,6 +4,7 @@ import model.Lane;
 import model.Vehicle;
 import org.junit.jupiter.api.Test;
 import util.Coordinate;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +19,7 @@ class LaneTest {
         //region Inicio
         assertEquals(0, lane.getNumberOfVehicles());
         assertEquals(3, lane.getMaxVehiclesStopped());
+        assertEquals(0, lane.getVehiclesStopped());
 
         assertEquals(0.0, lane.getStart().getX());
         assertEquals(1.0, lane.getStart().getY());
@@ -34,6 +36,14 @@ class LaneTest {
             lane.addVehicle(new Vehicle(null, null));
         }
         assertEquals(10, lane.getNumberOfVehicles());
+        //endregion
+
+        //region Contar veículos parados
+        LinkedList<Vehicle> linkedList = lane.getVehicles();
+        for (int i = 0; i < 3; i++) {
+            linkedList.get(i).stop();
+        }
+        assertEquals(3, lane.getMaxVehiclesStopped());
         //endregion
 
         //region Apagando os veículos

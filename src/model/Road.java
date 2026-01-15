@@ -36,6 +36,10 @@ public class Road {
         return lanes.get(nVia-1).getMaxVehiclesStopped();
     }
 
+    public Integer getVehiclesStopped(int nVia) {
+        return lanes.get(nVia-1).getVehiclesStopped();
+    }
+
     public Coordinate getLaneStart(Integer nVia){
         return lanes.get(nVia-1).getStart();
     }
@@ -62,22 +66,48 @@ public class Road {
     //Atualiza os veículos que estão em cada via das roads
     public void update(Pane vehiclesPane){
         for (int via = 1; via <= getNumberOfLanes(); via++) {
-            Iterator<Vehicle> iterator = getVehicles(via).iterator();
+            Vehicle previusVehicle = null;
+            Lane lane = lanes.get(via-1);
+            LinkedList<Vehicle> vehicles = getVehicles(via);
+            Iterator<Vehicle> iterator = vehicles.iterator();
 
             while (iterator.hasNext()) {
                 Vehicle vehicle = iterator.next();
-                //Verifica se o veículo está em movimento
                 vehicle.update();
                 double x = vehicle.getX();
                 double y = vehicle.getY();
                 double destinationX = vehicle.getDestinationX();
                 double destinationY = vehicle.getDestinationY();
 
-                //Valida se o veiculo chegou ao seu destino
+                //Verifica se os semáforos estão de cor vermelho ou amarelo para parar ao veículo
+                if (trafficLights.getFirst().isYellow() || trafficLights.getFirst().isRed()) {
+                    //Problema está aqui
+                    if(Objects.equals(vehicle.getX(), lane.getStop().getX()) && Objects.equals(vehicle.getY(), lane.getStop().getY())){
+                        vehicle.stop();
+                    }
+                    else if(previusVehicle != null && !previusVehicle.inMovement()){
+                        //Calcula ca diferença absoluta entre o veículo anterior com o presente
+                        double distanceX = Math.abs(previusVehicle.getX()-vehicle.getX());
+                        double distanceY = Math.abs(previusVehicle.getY()-vehicle.getY());
+
+                        if(distanceX == 0 && distanceY == 57 || distanceX == 57 && distanceY == 0){
+                            vehicle.stop();
+                        }
+                    }
+                    //------------------------------------------------------
+                }
+                else {
+                    vehicle.start();
+                }
+
+                //Verifica se o veículo chegou ao seu destino
                 if (Objects.equals(x, destinationX) && Objects.equals(y, destinationY)) {
                     vehiclesPane.getChildren().remove(vehicle.getImage());
                     iterator.remove();
+                    continue;
                 }
+
+                previusVehicle = vehicle;
             }
         }
     }
