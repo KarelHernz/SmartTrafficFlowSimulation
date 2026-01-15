@@ -16,7 +16,7 @@ public class Sensor {
 
             //Percorre na linkedList o número de veículos que não estão em movimento
             for (var vehicle : vehicles){
-                if (!vehicle.isEmMovement()){
+                if (!vehicle.inMovement()){
                     numVeiculos++;
                 }
             }

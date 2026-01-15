@@ -7,12 +7,12 @@ import java.util.Objects;
 public class Vehicle {
     private final ImageView image;
     private final Coordinate destination;
-    private boolean emMovement;
+    private boolean inMovement;
 
     public Vehicle(ImageView image, Coordinate destination) {
         this.image = image;
         this.destination = destination;
-        this.emMovement = true;
+        start();
     }
 
     public ImageView getImage() {
@@ -43,17 +43,21 @@ public class Vehicle {
         return destination.getY();
     }
 
-    public boolean isEmMovement() {
-        return emMovement;
+    public boolean inMovement() {
+        return inMovement;
     }
 
-    public void setMovimento(boolean emMovimento) {
-        this.emMovement = emMovimento;
+    public void stop(){
+        inMovement = false;
+    }
+
+    public void start(){
+        inMovement = true;
     }
 
     //Método para atualizar a posição do veiculo
     public void update(){
-        if (!isEmMovement()) {
+        if (!inMovement()) {
             return;
         }
 

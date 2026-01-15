@@ -71,10 +71,10 @@ public class World{
         coordinates.put("HStop4", new Coordinate(119.0, 365.0));
 
         //Lanes verticais
-        coordinates.put("VStop1", new Coordinate(109.0, 252.0));
-        coordinates.put("VStop2", new Coordinate(109.0, 287.0));
-        coordinates.put("VStop3", new Coordinate(500.0, 341.0));
-        coordinates.put("VStop4", new Coordinate(500.0, 376.0));
+        coordinates.put("VStop1", new Coordinate(252.0, 109.0));
+        coordinates.put("VStop2", new Coordinate(287.0, 109.0));
+        coordinates.put("VStop3", new Coordinate(341.0, 500.0));
+        coordinates.put("VStop4", new Coordinate(376.0, 500.0));
         //endregion
 
         //ArrayList das vias verticais e horizontais com as várias coordenadas dos HashMaps anteriores
@@ -130,10 +130,10 @@ public class World{
 
         @Override
         public void handle(long currentTime) {
-            //Atualiza cada segundo
             long SECONDS_NANOS = (long) (1000000000L / speed);
             long elapsedTime = currentTime - lastTime;
 
+            //Atualiza cada segundo
             if (currentTime - lastSecond > SECONDS_NANOS) {
                 long allSecondsElapsed = timeElapsed.getAllSeconds();
 
@@ -150,7 +150,7 @@ public class World{
             }
 
             //Atualiza cada "x" frames
-            long FRAMES_PER_SECOND = 30L;
+            long FRAMES_PER_SECOND = 60L;
             long INTERVAL = SECONDS_NANOS / FRAMES_PER_SECOND;
             if (elapsedTime >= INTERVAL) {
                 lastTime = currentTime;
@@ -178,9 +178,9 @@ public class World{
     private void updateRoad(Road road, Boolean isVertical){
         for (int v = 1; v <= road.getNumberOfLanes(); v++) {
             //Cálculo do número de veículos no road
-            int numVehicles = road.getNumberOfVehicles(v);
+            int stoppedVehicles = road.getVehiclesStopped(v);
             int limitOfVehicles = road.getMaxVehiclesStopped(v);
-            int vehiclesRemainder = limitOfVehicles - numVehicles;
+            int vehiclesRemainder = limitOfVehicles - stoppedVehicles;
             //----------------------------------------------------//
 
             //Se ouver espaço para mais um veículo no road, gera de forma aleatória um novo veículo
