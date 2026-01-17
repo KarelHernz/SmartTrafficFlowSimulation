@@ -2,10 +2,9 @@ package model;
 
 import controller.Strategy;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Intersection {
-    private final List<Road> roadList;
+    private final ArrayList<Road> roadList;
     private Strategy strategy;
 
     public Intersection(Strategy strategy) {
@@ -17,7 +16,7 @@ public class Intersection {
         this.roadList.add(road);
     }
 
-    public List<Road> getRoads() {
+    public ArrayList<Road> getRoads() {
         return roadList;
     }
 

@@ -63,11 +63,13 @@ public class Vehicle {
 
         //Como os veículos só se movimentam de forma retilínea só mudamos um dos dois eixos
         //Vai mudar no eixo do x
-        if (!(Objects.equals(getX(), getDestinationX()))){
-            setX((getX() > getDestinationX()) ? getX() - 1 : getX() + 1);
+        double x = getX();
+        double y = getY();
+        if (!(Objects.equals(x, getDestinationX()))){
+            setX((x > getDestinationX()) ? x - 1 : x + 1);
         } //Vai mudar no eixo do y
-        else if (!(Objects.equals(getY(), getDestinationY()))){
-            setY((getY() > getDestinationY()) ? getY() - 1 : getY() + 1);
+        else if (!(Objects.equals(y, getDestinationY()))){
+            setY((y > getDestinationY()) ? y - 1 : y + 1);
         }
     }
 }

@@ -25,7 +25,7 @@ public class World{
 
     private float speed = 1f;
 
-    public World(ControlPanel controlPanel, ArrayList<ImageView> imagesViews, Statistics statistics){
+    public World(ControlPanel controlPanel, HashMap<String, ImageView> imagesViews, Statistics statistics){
         this.controlPanel = controlPanel;
 
         //region HashMap de imagens dos veículos
@@ -48,7 +48,7 @@ public class World{
         coordinates.put("HEnd1", new Coordinate(-30.0, 243.0));
         coordinates.put("HEnd2", new Coordinate(-30.0, 278.0));
         coordinates.put("HEnd3", new Coordinate(660.0, 330.0));
-        coordinates.put("HEnd4", new Coordinate(-30.0, 365.0));
+        coordinates.put("HEnd4", new Coordinate(660.0, 365.0));
 
         //Coordenadas iniciais dos lanes verticais
         coordinates.put("VStart1", new Coordinate(252.0, -40.0));
@@ -91,15 +91,15 @@ public class World{
         Green green = new Green();
 
         //region ArrayList de TrafficLights
-        //Define o road vertical com os semáforos de cor vermelho
+        //Define o road vertical com os semáforos
         ArrayList<TrafficLight> tlVerticalList = new ArrayList<>();
-        tlVerticalList.add(new TrafficLight(red, null, imagesViews.getFirst(), imagesViews.get(1)));
-        tlVerticalList.add(new TrafficLight(red, null, imagesViews.get(2), imagesViews.get(3)));
+        tlVerticalList.add(new TrafficLight(red, imagesViews.get("Top")));
+        tlVerticalList.add(new TrafficLight(red, imagesViews.get("Bottom")));
 
-        //Define o road vertical com os semáforos de cor verde
+        //Define o road vertical com os semáforos
         ArrayList<TrafficLight> tlHorizontalList = new ArrayList<>();
-        tlHorizontalList.add(new TrafficLight(green, imagesViews.get(4), imagesViews.get(5), null));
-        tlHorizontalList.add(new TrafficLight(green, imagesViews.get(6), imagesViews.get(7), null));
+        tlHorizontalList.add(new TrafficLight(green, imagesViews.get("Left")));
+        tlHorizontalList.add(new TrafficLight(green, imagesViews.get("Right")));
         //endregion
 
         //Criação dos roads
@@ -109,6 +109,7 @@ public class World{
         this.intersection = new Intersection(new FixedCycle());
         intersection.addRoad(verticalRoad);
         intersection.addRoad(horizontalRoad);
+        statistics.setStrategy("Ciclo Fixo");
 
         this.statistics = statistics;
 
@@ -176,10 +177,10 @@ public class World{
 
     //Método para inserir veículos no road
     private void updateRoad(Road road, Boolean isVertical){
-        for (int v = 1; v <= road.getNumberOfLanes(); v++) {
+        for (int via = 1; via <= road.getNumberOfLanes(); via++) {
             //Cálculo do número de veículos no road
-            int stoppedVehicles = road.getVehiclesStopped(v);
-            int limitOfVehicles = road.getMaxVehiclesStopped(v);
+            int stoppedVehicles = road.getVehiclesStopped(via);
+            int limitOfVehicles = road.getMaxVehiclesStopped(via);
             int vehiclesRemainder = limitOfVehicles - stoppedVehicles;
             //----------------------------------------------------//
 
@@ -187,15 +188,15 @@ public class World{
             if (vehiclesRemainder > 0) {
                 //Devolve um número entre 0 e 1
                 int numRandom = (int) (Math.random() * 2);
-                for (int i = 0; i < numRandom; i++) {
-                    Vehicle vehicle = generateVehicle(v, isVertical);
-                    road.addVehicle(v, vehicle);
-                }
+                if (numRandom > 0) {
+                    Vehicle vehicle = generateVehicle(via, isVertical);
+                    road.addVehicle(via, vehicle);
 
-                //Atualiza o contador da direção onde aparecem os veículos nas estatísticas
-                String direction = getDirection(isVertical, v);
-                int result = statistics.getIntersectionValue(direction);
-                statistics.updateIntersection(direction, result+numRandom);
+                    //Atualiza o contador da direção onde aparecem os veículos nas estatísticas
+                    String direction = getDirection(isVertical, via);
+                    int result = statistics.getDirectionValue(direction);
+                    statistics.updateDirection(direction, result+numRandom);
+                }
             }
         }
     }
@@ -218,6 +219,10 @@ public class World{
         //Escolhe de forma aleatória uma cor para o veículo
         int indexColor = (int)(Math.random() * nColors);
         String color = vehicleColors[indexColor];
+
+        //Incrementa o número de veículos daquela cor nas estatísticas
+        int result = statistics.getVehiclesValue(color);
+        statistics.updateVehiclesColors(color, ++result);
 
         //Devolve uma imagem do array de images dos veículos em base à cor do veículo
         Image image = vehicleImages.get(color);
@@ -242,22 +247,15 @@ public class World{
         imageViewVehicle.setFitHeight(49);
 
         //Rota a imageView em base ao valor do isVertical e o número da via
+        double rotation;
         if (isVertical){
-            if (nVia == 3 || nVia == 4){
-                imageViewVehicle.setRotate(180.0);
-            }
+            rotation = (nVia == 1 || nVia == 2) ? 0 : 180.0;
         }
         else {
-            if (nVia == 1 || nVia == 2){
-                imageViewVehicle.setRotate(90.0);
-            } else {
-                imageViewVehicle.setRotate(270.0);
-            }
+            rotation = (nVia == 1 || nVia == 2) ? 90.0 : 270.0;
         }
+        imageViewVehicle.setRotate(rotation);
         controlPanel.addImageView(imageViewVehicle);
-        int result = statistics.getVehiclesValue(color);
-        statistics.updateVehiclesColors(color, ++result);
-
         return new Vehicle(imageViewVehicle, end);
     }
 

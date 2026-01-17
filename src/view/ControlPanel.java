@@ -2,11 +2,12 @@ package view;
 
 import controller.AdaptiveCycle;
 import controller.FixedCycle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -19,47 +20,43 @@ import util.Statistics;
 
 public class ControlPanel implements Initializable {
     @FXML
-    public Pane vehiclesPane;
+    private Pane vehiclesPane;
     @FXML
-    public ImageView ivLeftGreenLight;
+    private ImageView ivLeftLight;
     @FXML
-    public ImageView ivLeftYellowLight;
+    private ImageView ivRightLight;
     @FXML
-    public ImageView ivRightGreenLight;
+    private ImageView ivTopLight;
     @FXML
-    public ImageView ivRightYellowLight;
+    private ImageView ivBottomLight;
     @FXML
-    public ImageView ivTopRedLight;
+    private ComboBox<String> cbSpeed;
     @FXML
-    public ImageView ivTopYellowLight;
+    private Label lblRedValue;
     @FXML
-    public ImageView ivBottomRedLight;
+    private Label lblWhiteValue;
     @FXML
-    public ImageView ivBottomYellowLight;
+    private Label lblGoldenValue;
     @FXML
-    public ComboBox<String> cbSpeed;
+    private Label lblPurpleValue;
     @FXML
-    public Label lblRedValue;
+    private Label lblBlueValue;
     @FXML
-    public Label lblWhiteValue;
+    private Label lblBottomValue;
     @FXML
-    public Label lblGoldenValue;
+    private Label lblTopValue;
     @FXML
-    public Label lblPurpleValue;
+    private Label lblLeftValue;
     @FXML
-    public Label lblBlueValue;
+    private Label lblRightValue;
     @FXML
-    public Label lblBottomValue;
-    @FXML
-    public Label lblTopValue;
-    @FXML
-    public Label lblLeftValue;
-    @FXML
-    public Label lblRightValue;
-    @FXML
-    public Label lblTime;
+    private Label lblTime;
 
     private World world;
+    private final FixedCycle fixedCycle = new FixedCycle();
+    private final AdaptiveCycle adaptiveCycle = new AdaptiveCycle();
+    private final DirectoryChooser directoryChooser = new DirectoryChooser();
+    private final JsonExporter jsonExporter = new JsonExporter();
     private Statistics statistics;
 
     //Função que corre quando inicia o programa
@@ -68,16 +65,13 @@ public class ControlPanel implements Initializable {
         cbSpeed.getItems().addAll("Pausa", "x1", "x1.5", "x2");
         cbSpeed.setValue("x1");
 
-        ArrayList<ImageView> lightsImageViewList = new ArrayList<>();
-        lightsImageViewList.add(ivTopYellowLight);
-        lightsImageViewList.add(ivTopRedLight);
-        lightsImageViewList.add(ivBottomYellowLight);
-        lightsImageViewList.add(ivBottomRedLight);
-        lightsImageViewList.add(ivLeftGreenLight);
-        lightsImageViewList.add(ivLeftYellowLight);
-        lightsImageViewList.add(ivRightGreenLight);
-        lightsImageViewList.add(ivRightYellowLight);
+        HashMap<String, ImageView> lightsImageView = new HashMap<>();
+        lightsImageView.put("Top", ivTopLight);
+        lightsImageView.put("Bottom", ivBottomLight);
+        lightsImageView.put("Left", ivLeftLight);
+        lightsImageView.put("Right", ivRightLight);
 
+        //Configuração das estatísticas
         statistics = new Statistics();
         statistics.addVehiclesColors("Red");
         statistics.addVehiclesColors("White");
@@ -85,26 +79,31 @@ public class ControlPanel implements Initializable {
         statistics.addVehiclesColors("Purple");
         statistics.addVehiclesColors("Blue");
 
-        statistics.addIntersection("Top");
-        statistics.addIntersection("Bottom");
-        statistics.addIntersection("Left");
-        statistics.addIntersection("Right");
+        statistics.addDirection("Top");
+        statistics.addDirection("Bottom");
+        statistics.addDirection("Left");
+        statistics.addDirection("Right");
 
-        world = new World(this, lightsImageViewList, statistics);
+        world = new World(this, lightsImageView, statistics);
     }
 
-    public void changeFixedCycle(){
-        world.changeCycle(new FixedCycle());
-        reset();
+    @FXML
+    public void changeFixedCycle(ActionEvent event){
+        world.changeCycle(fixedCycle);
+        statistics.setStrategy("Ciclo Fixo");
+        reset(event);
     }
 
-    public void changeAdaptativeCycle(){
-        world.changeCycle(new AdaptiveCycle());
-        reset();
+    @FXML
+    public void changeAdaptativeCycle(ActionEvent event){
+        world.changeCycle(adaptiveCycle);
+        statistics.setStrategy("Ciclo Adaptado");
+        reset(event);
     }
 
     //Função para mudar a velocidade
-    public void changeSpeed(){
+    @FXML
+    public void changeSpeed(ActionEvent event){
         switch (cbSpeed.getValue()){
             case "Pausa":
                 world.changeSpeed(0);
@@ -121,18 +120,18 @@ public class ControlPanel implements Initializable {
         }
     }
 
-    public void reset(){
+    @FXML
+    public void reset(ActionEvent event){
         world.reset();
         vehiclesPane.getChildren().clear();
         updateLabels();
     }
 
-    public void export(){
+    @FXML
+    public void export(ActionEvent event){
         try {
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            JsonExporter jsonExporter = new JsonExporter();
             File file = directoryChooser.showDialog(new Stage());
-
+            //Exporta o ficheiro das estatísticas na pasta escolhida
             if (file != null) {
                 world.changeSpeed(0);
                 cbSpeed.setValue("Pausa");
@@ -145,18 +144,18 @@ public class ControlPanel implements Initializable {
 
     //Função para mudar o texto das labels das estatísticas
     public void updateLabels(){
-        //Carros
+        //Cores
         lblRedValue.setText(statistics.getVehiclesValue("Red").toString());
         lblWhiteValue.setText(statistics.getVehiclesValue("White").toString());
         lblGoldenValue.setText(statistics.getVehiclesValue("Golden").toString());
         lblPurpleValue.setText(statistics.getVehiclesValue("Purple").toString());
         lblBlueValue.setText(statistics.getVehiclesValue("Blue").toString());
 
-        //Intersecção
-        lblBottomValue.setText(statistics.getIntersectionValue("Bottom").toString());
-        lblTopValue.setText(statistics.getIntersectionValue("Top").toString());
-        lblLeftValue.setText(statistics.getIntersectionValue("Left").toString());
-        lblRightValue.setText(statistics.getIntersectionValue("Right").toString());
+        //Servidos
+        lblBottomValue.setText(statistics.getDirectionValue("Bottom").toString());
+        lblTopValue.setText(statistics.getDirectionValue("Top").toString());
+        lblLeftValue.setText(statistics.getDirectionValue("Left").toString());
+        lblRightValue.setText(statistics.getDirectionValue("Right").toString());
 
         //Tempo
         lblTime.setText(statistics.getTimeElapsed());
