@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrafficLightTest {
     @Test
     void main() {
-        TrafficLight greenLight = new TrafficLight(new Green(), null, null, null);
-        TrafficLight yellowLight = new TrafficLight(new Yellow(), null, null, null);
-        TrafficLight redLight = new TrafficLight(new Red(), null, null, null);
+        TrafficLight greenLight = new TrafficLight(new Green(), null);
+        TrafficLight yellowLight = new TrafficLight(new Yellow(), null);
+        TrafficLight redLight = new TrafficLight(new Red(), null);
 
         //region Inicio
         assertTrue(greenLight.isGreen());

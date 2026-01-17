@@ -4,40 +4,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Statistics {
-    private final Map<String, Integer> vehiclesColors = new HashMap<>();
-    private final Map<String, Integer> intersection = new HashMap<>();
+    private String strategy;
+    private final Map<String, Integer> color = new HashMap<>();
+    private final Map<String, Integer> created = new HashMap<>();
     private String timeElapsed = "0s";
 
+    public void setStrategy(String strategy) {
+        this.strategy = strategy;
+    }
+
+    public String getStrategy() {
+        return strategy;
+    }
+
     public void addVehiclesColors(String color){
-        vehiclesColors.put(color, 0);
+        this.color.put(color, 0);
     }
 
     public void updateVehiclesColors(String color, int value){
-        vehiclesColors.put(color, value);
+        this.color.put(color, value);
     }
 
     public Integer getVehiclesValue(String color){
-        return vehiclesColors.get(color);
+        return this.color.get(color);
     }
 
-    public Map<String, Integer> getVehiclesColors() {
-        return vehiclesColors;
+    public Map<String, Integer> getColor() {
+        return color;
     }
 
-    public void addIntersection(String direction){
-        intersection.put(direction, 0);
+    public void addDirection(String direction){
+        created.put(direction, 0);
     }
 
-    public void updateIntersection(String direction, int value){
-        intersection.put(direction, value);
+    public void updateDirection(String direction, int value){
+        created.put(direction, value);
     }
 
-    public Integer getIntersectionValue(String direction){
-        return intersection.get(direction);
+    public Integer getDirectionValue(String direction){
+        return created.get(direction);
     }
 
-    public Map<String, Integer> getIntersection() {
-        return intersection;
+    public Map<String, Integer> getCreated() {
+        return created;
     }
 
     public void setTimeElapsed(String timeElapsed){
@@ -49,8 +58,8 @@ public class Statistics {
     }
 
     public void reset(){
-        vehiclesColors.replaceAll((c, v) -> 0);
-        intersection.replaceAll((d, v) -> 0);
+        color.replaceAll((c, v) -> 0);
+        created.replaceAll((d, v) -> 0);
         timeElapsed = "0s";
     }
 }

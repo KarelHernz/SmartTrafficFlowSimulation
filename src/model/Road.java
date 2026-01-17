@@ -71,6 +71,7 @@ public class Road {
             LinkedList<Vehicle> vehicles = getVehicles(via);
             Iterator<Vehicle> iterator = vehicles.iterator();
 
+            //Vai percorrer todos os veículos
             while (iterator.hasNext()) {
                 Vehicle vehicle = iterator.next();
                 vehicle.update();
@@ -80,23 +81,22 @@ public class Road {
                 double destinationY = vehicle.getDestinationY();
 
                 //Verifica se os semáforos estão de cor vermelho ou amarelo para parar ao veículo
-                if (trafficLights.getFirst().isYellow() || trafficLights.getFirst().isRed()) {
-                    //Problema está aqui
-                    if(Objects.equals(vehicle.getX(), lane.getStop().getX()) && Objects.equals(vehicle.getY(), lane.getStop().getY())){
+                if ((trafficLights.getFirst().isYellow() || trafficLights.getFirst().isRed())) {
+                    if(Objects.equals(x, lane.getStop().getX()) && Objects.equals(y, lane.getStop().getY())){
                         vehicle.stop();
                     }
                     else if(previusVehicle != null && !previusVehicle.inMovement()){
                         //Calcula ca diferença absoluta entre o veículo anterior com o presente
-                        double distanceX = Math.abs(previusVehicle.getX()-vehicle.getX());
-                        double distanceY = Math.abs(previusVehicle.getY()-vehicle.getY());
+                        double distanceX = Math.abs(previusVehicle.getX()-x);
+                        double distanceY = Math.abs(previusVehicle.getY()-y);
 
                         if(distanceX == 0 && distanceY == 57 || distanceX == 57 && distanceY == 0){
                             vehicle.stop();
                         }
                     }
-                    //------------------------------------------------------
+                    previusVehicle = vehicle;
                 }
-                else {
+                else if (!vehicle.inMovement()){
                     vehicle.start();
                 }
 
@@ -104,10 +104,7 @@ public class Road {
                 if (Objects.equals(x, destinationX) && Objects.equals(y, destinationY)) {
                     vehiclesPane.getChildren().remove(vehicle.getImage());
                     iterator.remove();
-                    continue;
                 }
-
-                previusVehicle = vehicle;
             }
         }
     }

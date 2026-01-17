@@ -21,15 +21,12 @@ public class TimeElapsed {
     }
 
     //Devolve o tempo transcorrido
+    @Override
     public String toString() {
         if (hours == 0) {
-            if (minutes == 0) {
-                return seconds + "s";
-            } else {
-                return minutes + "m:" + seconds + "s";
-            }
+            return (minutes == 0) ? "%ds".formatted(seconds): "%dm:%ds".formatted(minutes, seconds);
         } else {
-            return hours + "h:" + minutes + "m:" + seconds + "s";
+            return "%dh:%dm:%ds".formatted(hours, minutes, seconds);
         }
     }
 
